@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import tailwindcss from "@tailwindcss/vite";
 
 const URL = 'https://MarcusChung.github.io';
 // https://astro.build/config
@@ -7,4 +8,7 @@ const URL = 'https://MarcusChung.github.io';
 export default defineConfig({
     site: URL,
     base: "/MC-site",
+    vite: {
+        plugins: [tailwindcss()],
+    },
 });
