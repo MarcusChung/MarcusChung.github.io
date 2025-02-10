@@ -1,4 +1,6 @@
 ---
+// import { BASE_PATH } from 'constants.js';
+import Header from '../components/Header.astro';
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
@@ -7,5 +9,14 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
+	<Header />
+	<body>
+		<h1>About Me</h1>
+		<h2>lorem ipsum text text</h2>
+	  
+		<p>I am working through Astro </p>
+	  
+		<p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
+	  </body>
 	<Welcome />
 </Layout>

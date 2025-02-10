@@ -1,0 +1,370 @@
+---
+import { Image } from "astro:assets";
+import BlogHeader from "../../components/Header.astro";
+import serverOverviewImg from "../../images/PZ_ARM_Overview.png";
+import BlogLayout from "../../layouts/Layout.astro";
+---
+
+<BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
+<BlogLayout
+  title="Setting Up Your Server"
+  description="A detailed guide on setting up your server from scratch."
+>
+  <section>
+    <h2>Introduction</h2>
+    <p>
+      Currently Project Zomboid does not support ARM64 Servers, so it makes it
+      difficult to setup a multiplayer server. We will use an emulator to bypass
+      this restriction. This guide provides you with a step-by-step guide on how
+      to set up a server using a working solution and is suitable for beginners.
+    </p>
+  </section>
+
+  <section>
+    <h2>Prerequisites</h2>
+    <h3>An oracle cloud VM instance with the following properties:</h3>
+    <ul>
+      <li>Ampere VM.Standard.A1.Flex OR VM.Standard.E2.1.Micro</li>
+      <li>Canonical Ubuntu 22.04</li>
+      <li>Open UDP ports 16261 &16262 in the Oracle firewall rules.</li>
+    </ul>
+    <p>
+      If you don't know how to setup a VM instance using Oracle cloud. Here is a
+      useful <a
+        href="https://www.youtube.com/watch?v=0kFjEUDJexI&list=WL&index=3&t=1215s"
+      >
+        video
+      </a> (Watch until 12:51 for the relevant parts).
+    </p>
+  </section>
+
+  <section>
+    <h2>Setting up the Server</h2>
+    <p>Follow these steps to set up your Project Zomboid server:</p>
+
+    <h3>1. Accessing the Terminal</h3>
+    <ol>
+      <li>
+        Use your preferred method to access the terminal: <strong>SSH</strong>
+        or <strong>PuTTY</strong> (watch the video if unsure).
+      </li>
+      <li>
+        Type the following to get root privileges:
+        <pre><code>sudo su</code></pre>
+      </li>
+    </ol>
+
+    <h3>2. Update the System</h3>
+    <p>Update and upgrade the package index by typing:</p>
+    <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
+
+    <h3>3. Set Up the Firewall</h3>
+    <p>If not installed, install UFW:</p>
+    <pre><code>sudo apt install ufw</code></pre>
+    <p>Enable UFW and allow the necessary ports:</p>
+    <pre><code> sudo ufw enable </code></pre>
+    <pre><code> sudo ufw allow 16261/udp </code></pre>
+    <pre><code> sudo ufw allow 16262/udp </code></pre>
+    <pre><code> sudo ufw reload </code></pre>
+
+    <h3>4. Install Docker</h3>
+    <p>Type the following to install Docker:</p>
+    <pre><code>curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
+
+    <h3>5. Run the Docker Container</h3>
+    <p>Download the required Docker image:</p>
+    <pre><code>docker pull teriyakigod/steamcmd:arm64</code></pre>
+    <p>Create a Docker container:</p>
+    <pre><code>docker run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64</code></pre>
+
+    <h3>6. Inside the Container</h3>
+    <ol>
+      <li>Install a text editor: <code>apt-get install nano</code></li>
+      <li>
+        Update the package index:
+        <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
+      </li>
+      <li>
+        Install <strong>screen</strong> to keep the server running:
+        <pre><code>sudo apt install screen -y</code></pre>
+      </li>
+    </ol>
+    <section>
+      <h1>Common Issues</h1>
+      <p>
+        Here are some common issues you might encounter and how to solve them...
+      </p>
+      <h3>
+        If you have errors like <a
+          href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/"
+        >
+          this</a
+        > (server does not start)
+      </h3>
+      <ol>
+        <li>Try editing the ProjectZomboid64.json file</li>
+        <li>Change the "UseZGC" line to "UseG1GC"</li>
+        <li>Restart the server.</li>
+      </ol>
+
+      <h1>How to keep the server running in the background</h1>
+      <p>
+        Now that everything is working you may wonder how to keep the game
+        server up even when we close the terminal.
+      </p>
+      <p>Simply type screen before the FEXBash run command:</p>
+      <pre><code> screen FEXBash ./start-server.sh</code></pre>
+      <p>
+        if you want to detach from the screen session without stopping it, press
+      </p>
+      <p>ctrl+a, then d</p>
+      <p>This will return you to the normal terminal.</p>
+    </section>
+
+    <section>
+      <h2>Additional Tips</h2>
+
+      <h3>1. Screen Session Management</h3>
+      <p>
+        When running long processes, use <strong>screen</strong> to keep them running
+        even if you disconnect from the terminal.
+      </p>
+
+      <h4>Reattach to the Screen Session</h4>
+      <p>To go back to your running session, use:</p>
+      <pre><code>screen -r</code></pre>
+
+      <p>If you have multiple screen sessions running, list them with:</p>
+      <pre><code>screen -ls</code></pre>
+
+      <p>Then reattach to a specific session:</p>
+      <pre><code>screen -r &lt;session_id&gt;</code></pre>
+
+      <h4>Properly Exit the Screen Session</h4>
+      <p>If you're done and want to close the session completely:</p>
+      <ol>
+        <li>
+          Exit the running process inside <code>screen</code> (e.g., <code
+            >FEXBash ./steamcmd.sh</code
+          >).
+        </li>
+        <li>
+          Type <code>exit</code> or press <code>Ctrl + D</code> to close the session.
+        </li>
+      </ol>
+
+      <h3>2. Docker Tips and Commands</h3>
+      <p>These are some basic Docker commands for managing your containers:</p>
+
+      <h4>Checking Containers</h4>
+      <ul>
+        <li>
+          Check if a container is running:
+          <pre><code>docker ps</code></pre>
+        </li>
+        <li>
+          Check if a container exists (even if it's not running):
+          <pre><code>docker ps -a</code></pre>
+        </li>
+      </ul>
+
+      <h4>Attaching to a Running Container</h4>
+      <p>To open an interactive shell inside a running container:</p>
+      <pre><code>docker exec -it &lt;container_id&gt; /bin/sh</code></pre>
+
+      <p>If the container is not running, start and attach to it:</p>
+      <pre><code>
+  docker start &lt;container_id&gt;
+  docker exec -it &lt;container_id&gt; /bin/sh
+    </code></pre>
+
+      <p>
+        If you don't have the container ID or name, recreate and attach to the
+        container immediately:
+      </p>
+      <pre><code>
+  docker run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64
+    </code></pre>
+
+      <h4>Exiting and Stopping Containers</h4>
+      <p>To exit the container's shell without stopping it, press:</p>
+      <pre><code>Ctrl + P, then Ctrl + Q</code></pre>
+
+      <p>To stop the container completely, type:</p>
+      <pre><code>docker stop &lt;container_id&gt;</code></pre>
+
+      <h4>Logs and Cleanup</h4>
+      <ul>
+        <li>
+          Access logs of the container:
+          <pre><code>docker logs &lt;container_id&gt;</code></pre>
+        </li>
+        <li>
+          Remove a container:
+          <pre><code>docker rm &lt;container_id&gt;</code></pre>
+        </li>
+      </ul>
+      <Image src={serverOverviewImg} alt="Description of the image" />
+
+      <h3>Credits</h3>
+      <p>
+        Special thanks to <strong>makosski52</strong> for their guide on how to use
+        FAX-emu to run a Project Zomboid server.
+      </p>
+    </section>
+  </section>
+
+  <style>
+    #container {
+      font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+        Arial, sans-serif;
+      height: 100%;
+    }
+
+    main {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #hero {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-top: 0.25em;
+    }
+
+    #links {
+      display: flex;
+      gap: 16px;
+    }
+
+    #links a {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      color: #111827;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    #links a:hover {
+      color: rgb(78, 80, 86);
+    }
+
+    #links a svg {
+      height: 1em;
+      margin-left: 8px;
+    }
+
+    #links a.button {
+      color: white;
+      background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.24);
+      border-radius: 10px;
+    }
+
+    #links a.button:hover {
+      color: rgb(230, 230, 230);
+      box-shadow: none;
+    }
+
+    pre {
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+        Consolas, "DejaVu Sans Mono", monospace;
+      font-weight: normal;
+      text-align: center;
+    }
+
+    h2 {
+      margin: 0 0 1em;
+      font-weight: normal;
+      color: #111827;
+      font-size: 20px;
+    }
+
+    p {
+      color: #4b5563;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.006em;
+      margin: 0% 30%;
+    }
+
+    code {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.2);
+      color: #333;
+      border: 1px solid;
+      border-image: linear-gradient(135deg, #ffe97e, #fff175) 1;
+      padding: 6px 8px;
+      font-family: "Consolas", monospace;
+    }
+
+    .box {
+      padding: 16px;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 16px;
+      border: 1px solid white;
+    }
+
+    #news {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      max-width: 300px;
+      text-decoration: none;
+      transition: background 0.2s;
+      backdrop-filter: blur(50px);
+    }
+
+    #news:hover {
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    @media screen and (max-height: 368px) {
+      #news {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      #container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #hero {
+        display: block;
+        padding-top: 10%;
+      }
+
+      #links {
+        flex-wrap: wrap;
+      }
+
+      #links a.button {
+        padding: 14px 18px;
+      }
+
+      #news {
+        right: 16px;
+        left: 16px;
+        bottom: 2.5rem;
+        max-width: 100%;
+      }
+
+      h1 {
+        line-height: 1.5;
+      }
+    }
+  </style>
+</BlogLayout>

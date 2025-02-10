@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 
 const URL = 'https://MarcusChung.github.io';
-const BASE = '/MC-site';
 // https://astro.build/config
+// https://marcuschung.github.io/MC-site/
 export default defineConfig({
     site: URL,
-    base: BASE,
+    base: "/MC-site",
 });
