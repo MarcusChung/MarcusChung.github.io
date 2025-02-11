@@ -1,61 +1,36 @@
 ---
 import { Image } from "astro:assets";
 import lightLogo from "../images/MCdark.png";
-import "../styles/global.css";
 ---
 
-<section id="container">
-    <div id="header">
-        <Image src={lightLogo} alt="logo" class="max-w-15"/>
-        <a href="/MC-site/">Home</a>
-        <a href="/MC-site/about/">About</a>
-        <a href="/MC-site/blog/HowToPZServer"
-            >Oracle Cloud Free Project Zomboid Server
-        </a>
+<section class="max-w-full mx-auto bg-[#EB9E80] text-lg rounded-b-3xl">
+    <div
+        class="bg-[#0d0d0d] text-white py-8 relative flex items-center justify-center"
+    >
+        <div class="absolute left-5">
+            <Image src={lightLogo} alt="logo" class="max-w-[20%]" />
+        </div>
+
+        <nav class="space-x-4">
+            <a href="/MC-site/" class="hover:underline">Home</a>
+            <a href="/MC-site/about/" class="hover:underline">About</a>
+            <a href="/MC-site/blog/HowToPZServer" class="hover:underline">
+                Oracle Cloud Free Project Zomboid Server
+            </a>
+        </nav>
+        <!-- To be implemented -->
+        <nav class="absolute right-5">
+            <!-- <a href="/MC-site/" class="hover:underline">WIP</a> -->
+        </nav>
     </div>
 
-    <div id="lowerHeader">
-        <p> Check out my latest blog post: <a href="/MC-site/blog/HowToPZServer"> How to create a free project zomboid server using Oracle Cloud's free tier services</a></p>
+    <div class="text-center pb-1 pt-3">
+        <p>
+            Check out my latest blog post:
+            <a href="/MC-site/blog/HowToPZServer" class="hover:underline">
+                How to create a free Project Zomboid server using Oracle Cloud's
+                free tier services
+            </a>
+        </p>
     </div>
 </section>
-
-<style>
-    #header {
-        background: rgb(0, 0, 0);
-        color: rgb(255, 255, 255);
-        padding: 2.2%;
-        border-radius: 8px; 
-        text-align: center;
-    }
-
-    #header a {
-        color: white;
-        text-decoration: none;
-    }
-
-    #header a:hover {
-        text-decoration: underline;
-    }
-    
-    #lowerHeader {
-        text-align: center;
-        padding-bottom: 0.3%;
-        padding-top: 0.3%;
-    }
-    #lowerHeader a {
-        text-decoration: none;
-    }
-
-    #lowerHeader a:hover {
-        text-decoration: underline;
-    }
-
-    #container {
-        margin-top: 0.5%;
-        margin-left: 10%;
-        margin-right: 10%;
-        background: rgb(235,158,128);
-        font-size:large;
-        border-radius: 8px; 
-    }
-</style>

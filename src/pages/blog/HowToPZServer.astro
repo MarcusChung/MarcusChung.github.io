@@ -5,120 +5,217 @@ import serverOverviewImg from "../../images/PZ_ARM_Overview.png";
 import BlogLayout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
 ---
+
 <BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
 <BlogLayout
   title="Setting Up Your Server"
   description="A detailed guide on setting up your server from scratch."
 >
-<div class="container mx-auto bg-[#F5D4C2] p-10">
-  <section class="prose prose-lg max-w-none mx-100 my-8">
-    <h2>Introduction</h2>
-    <p>
-      Currently, Project Zomboid does not support ARM64 servers, making it
-      difficult to set up a multiplayer server. We will use an emulator to
-      bypass this restriction. This guide provides a step-by-step process for
-      setting up a server using a working solution, suitable for beginners.
-    </p>
-  </section>
+  <div class="container max-w-7xl mx-auto bg-[#fef9f8] p-10">
+    <section class="max-w-none mx-auto mb-8">
+      <h2>Introduction</h2>
+      <p>
+        Currently, Project Zomboid does not support ARM64 servers, making it
+        difficult to set up a multiplayer server. We will use an emulator to
+        bypass this restriction. This guide provides a step-by-step process for
+        setting up a server using a working solution, suitable for beginners.
+      </p>
+    </section>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
-    <h2>Prerequisites</h2>
-    <p>An Oracle Cloud VM instance with the following properties:</p>
-    <ul>
-      <li>Ampere VM.Standard.A1.Flex OR VM.Standard.E2.1.Micro</li>
-      <li>Canonical Ubuntu 22.04</li>
-      <li>Open UDP ports 16261 & 16262 in Oracle firewall rules.</li>
-    </ul>
-    <p>
-      If you're unfamiliar with setting up a VM instance using Oracle Cloud,
-      check out this <a href="https://www.youtube.com/watch?v=0kFjEUDJexI&list=WL&index=3&t=1215s" target="_blank">
-        video guide
-      </a> (watch until 12:51 for the relevant parts).
-    </p>
-  </section>
+    <section class="max-w-none mx-auto my-8">
+      <h2>Prerequisites</h2>
+      <p>An Oracle Cloud VM instance with the following properties:</p>
+      <ul>
+        <li>Ampere VM.Standard.A1.Flex OR VM.Standard.E2.1.Micro</li>
+        <li>Canonical Ubuntu 22.04</li>
+        <li>Open UDP ports 16261 & 16262 in Oracle firewall rules.</li>
+      </ul>
+      <p>
+        If you're unfamiliar with setting up a VM instance using Oracle Cloud,
+        check out this <a
+          href="https://www.youtube.com/watch?v=0kFjEUDJexI&list=WL&index=3&t=1215s"
+          target="_blank"
+        >
+          video guide
+        </a> (watch until 12:51 for the relevant parts).
+      </p>
+    </section>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
-    <h2>Setting Up the Server</h2>
-    <h3>1. Accessing the Terminal</h3>
-    <p>Use your preferred method to access the terminal: <strong>SSH</strong> or <strong>PuTTY</strong>.</p>
-    <pre><code>sudo su</code></pre>
+    <section class="max-w-none mx-auto my-8">
+      <h2>Setting Up the Server</h2>
+      <h3>1. Accessing the Terminal</h3>
+      <p>
+        Use your preferred method to access the terminal: [SSH / PuTTY (if you
+        don't know how, watch the video)]
+      </p>
+      <h3>2. Root access</h3>
+      Log in as root user if you don't want to continually add 'sudo' in front of
+      every command.
+      <pre><code>sudo su</code></pre>
 
-    <h3>2. Update the System</h3>
-    <p>Update and upgrade the package index:</p>
-    <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
+      <h3>3. Update the System</h3>
+      <p>Update and upgrade the package index:</p>
+      <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
 
-    <h3>3. Set Up the Firewall</h3>
-    <p>If not installed, install UFW:</p>
-    <pre><code>sudo apt install ufw</code></pre>
-    <p>Enable UFW and allow the necessary ports:</p>
-    <pre><code>
-sudo ufw enable
+      <h3>4. Set Up the Firewall</h3>
+      <p>If not installed, install UFW:</p>
+      <pre><code>sudo apt install ufw</code></pre>
+      <p>Enable UFW and allow the necessary ports:</p>
+      <pre><code>sudo ufw enable
 sudo ufw allow 16261/udp
 sudo ufw allow 16262/udp
-sudo ufw reload
-    </code></pre>
-  </section>
+sudo ufw reload</code></pre>
+    </section>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
-    <h3>4. Install Docker</h3>
-    <p>Run the following command to install Docker:</p>
-    <pre><code>curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
+    <section class="max-w-none mx-auto my-8">
+      <h3>5. Install Docker</h3>
+      <p>Run the following command to install Docker:</p>
+      <pre><code>curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
 
-    <h3>5. Run the Docker Container</h3>
-    <p>Pull the required Docker image and create a container:</p>
-    <pre><code>
-docker pull teriyakigod/steamcmd:arm64
-docker run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64
-    </code></pre>
-  </section>
+      <h3>6. Run the Docker Container</h3>
+      <p>Pull the required Docker image and create a container:</p>
+      <pre><code>docker pull teriyakigod/steamcmd:arm64</code></pre>
+      <p>
+        This container contains FEX-emulator which will allow us to run the PZ
+        server.
+      </p>
 
-  <section class="prose prose-lg max-w-none mx-100 my-8 bg-orange-300 border-solid">
-    <h2>Common Issues</h2>
-    <p>If you encounter errors like <a href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/">this</a>, try the following:</p>
-    <ol>
-      <li>Edit the <code>ProjectZomboid64.json</code> file.</li>
-      <li>Change the <code>"UseZGC"</code> line to <code>"UseG1GC"</code>.</li>
-      <li>Restart the server.</li>
-    </ol>
+      <h3>7. Deploy and run the docker container</h3>
+      <pre><code>run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64</code></pre>
+    </section>
+    <section class="max-w-none mx-auto my-8">
+      <h3 class="text-xl font-bold mb-4">8. Install a Text Editor</h3>
+      <p>
+        Once inside the container as root, run the following command to install
+        a text editor:
+      </p>
+      <pre><code>apt-get install nano</code></pre>
 
-    <h2>Keeping the Server Running</h2>
-    <p>Use <code>screen</code> to keep the server running in the background:</p>
-    <pre><code>screen FEXBash ./start-server.sh</code></pre>
-    <p>Detach from the session with <code>Ctrl + A</code>, then <code>D</code>.</p>
-  </section>
+      <h3 class="text-xl font-bold mt-8 mb-4">9. Update the Package Index</h3>
+      <p>Update the package index of the container with:</p>
+      <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
-    <h2>Additional Tips</h2>
-    <h3>1. Screen Session Management</h3>
-    <h4>Reattach to a Screen Session</h4>
-    <pre><code>screen -r</code></pre>
+      <h3 class="text-xl font-bold mt-8 mb-4">10. Install Screen</h3>
+      <p>
+        To keep the server running even when the terminal is closed, install <code
+          >screen</code
+        >:
+      </p>
+      <pre><code>sudo apt install screen -y</code></pre>
 
-    <h4>Check Running Sessions</h4>
-    <pre><code>screen -ls</code></pre>
+      <h3 class="text-xl font-bold mt-8 mb-4">
+        11. Define CPU Frequency for SteamCMD
+      </h3>
+      <p>
+        Before running SteamCMD, define the CPU frequency. Open <code
+          >steamcmd.sh</code
+        > in a text editor and add this at the top or before <code
+          >cd "$STEAMROOT"</code
+        >:
+      </p>
+      <pre><code>export CPU_MHZ=2000</code></pre>
+      <p>To exit and save, press <code>Ctrl + X</code>, then confirm.</p>
 
-    <h3>2. Docker Tips</h3>
-    <p>Basic Docker commands for managing your containers:</p>
-    <h4>Checking Containers</h4>
-    <pre><code>docker ps</code></pre>
-    <p>List all containers:</p>
-    <pre><code>docker ps -a</code></pre>
+      <h3 class="text-xl font-bold mt-8 mb-4">12. Launch the Zomboid Server</h3>
+      <p>Login as the <code>steam</code> user and run SteamCMD:</p>
+      <pre><code>sudo -u steam -i
+cd Steam
+FEXBash ./steamcmd.sh</code></pre>
 
-    <h4>Attaching to a Running Container</h4>
-    <pre><code>docker exec -it &lt;container_id&gt; /bin/sh</code></pre>
+      <h3 class="text-xl font-bold mt-8 mb-4">
+        13. Install the Zomboid Server Files
+      </h3>
+      <p>
+        In SteamCMD, log in as an anonymous user and install the Zomboid server
+        files:
+      </p>
+      <pre><code>login anonymous
+app_update 380870 validate</code></pre>
 
-    <h4>Stopping and Removing Containers</h4>
-    <pre><code>
-docker stop &lt;container_id&gt;
-docker rm &lt;container_id&gt;
-    </code></pre>
-  </section>
+      <h3 class="text-xl font-bold mt-8 mb-4">14. Start the Zomboid Server</h3>
+      <p>
+        Navigate to the server files directory and use <code>FEXBash</code> and <code
+          >screen</code
+        > to run <code>start-server.sh</code>:
+      </p>
+      <pre><code>cd steamapps/common/Project\ Zomboid\ Dedicated\ Server/
+FEXBash ./start-server.sh</code></pre>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8 pb-12 ">
-    <Image src={serverOverviewImg} alt="Server Overview" class="mx-auto block border-6 border-orange-300 rounded-lg"/>
-    <h3 class="pt-5">Credits</h3>
-    <p>
-      Special thanks to <strong>makosski52</strong> for their guide on using FAX-emu to run a Project Zomboid server.
+      <p class="mt-4">
+        Test if everything is working by connecting to the server using your
+        public IPv4 address from the Oracle Cloud instance created at the start.
+      </p>
+    </section>
+
+    <section class="max-w-none mx-auto my-8">
+      <h2>Common Issues</h2>
+      <p>
+        If you encounter errors like <a
+          href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/"
+          >this</a
+        >, try the following:
+      </p>
+      <ol>
+        <li>Edit the <code>ProjectZomboid64.json</code> file.</li>
+        <li>
+          Change the <code>"UseZGC"</code> line to <code>"UseG1GC"</code>.
+        </li>
+        <li>Restart the server.</li>
+      </ol>
+
+      <h2>Keeping the server running</h2>
+      <p>
+        Use <code>screen</code> to keep the server running in the background:
+      </p>
+      <pre><code>screen FEXBash ./start-server.sh</code></pre>
+      <p>
+        Detach from the session with <code>Ctrl + A</code>, then <code>D</code>.
+      </p>
+    </section>
+    <!-- 
+    <section class="max-w-none mx-auto my-8">
+      
+    </section> -->
+    <div class="relative flex items-center justify-center">
+      <section
+        class="max-w-none mx-auto pb-4 flex flex-col md:flex-row md:items-center md:space-x-6"
+      >
+        <div class="md:w-1/2">
+          <h2>Additional Tips</h2>
+          <h3>1. Screen Session Management</h3>
+          <h4>Reattach to a Screen Session</h4>
+          <pre><code>screen -r</code></pre>
+
+          <h4>Check Running Sessions</h4>
+          <pre><code>screen -ls</code></pre>
+
+          <h3>2. Docker Tips</h3>
+          <p>Basic Docker commands for managing your containers:</p>
+          <h4>Checking Containers</h4>
+          <pre><code>docker ps</code></pre>
+          <p>List all containers:</p>
+          <pre><code>docker ps -a</code></pre>
+
+          <h4>Attaching to a Running Container</h4>
+          <pre><code>docker exec -it &lt;container_id&gt; /bin/sh</code></pre>
+
+          <h4>Stopping and Removing Containers</h4>
+
+          <pre><code>docker stop &lt;container_id&gt;
+docker rm &lt;container_id&gt;</code></pre>
+        </div>
+        <div class="md:w-1/2">
+          <Image
+            src={serverOverviewImg}
+            alt="Server Overview"
+            class="mx-auto block w-3/4 md:w-full border-6 border-orange-300 rounded-lg"
+          />
+        </div>
+      </section>
+    </div>
+    <p class="text-center">
+      Special thanks to <strong>makosski52</strong> for their guide on using FAX-emu
+      to run a Project Zomboid server.
     </p>
-  </section>
-</div>
+  </div>
 </BlogLayout>
