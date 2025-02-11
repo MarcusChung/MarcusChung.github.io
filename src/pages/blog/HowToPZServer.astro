@@ -10,7 +10,8 @@ import "../../styles/global.css";
   title="Setting Up Your Server"
   description="A detailed guide on setting up your server from scratch."
 >
-  <section class="prose prose-lg max-w-none mx-auto my-8">
+<div class="container mx-auto bg-[#F5D4C2] p-10">
+  <section class="prose prose-lg max-w-none mx-100 my-8">
     <h2>Introduction</h2>
     <p>
       Currently, Project Zomboid does not support ARM64 servers, making it
@@ -71,7 +72,7 @@ docker run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u r
     </code></pre>
   </section>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
+  <section class="prose prose-lg max-w-none mx-100 my-8 bg-orange-300 border-solid">
     <h2>Common Issues</h2>
     <p>If you encounter errors like <a href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/">this</a>, try the following:</p>
     <ol>
@@ -112,11 +113,12 @@ docker rm &lt;container_id&gt;
     </code></pre>
   </section>
 
-  <section class="prose prose-lg max-w-none mx-auto my-8">
-    <Image src={serverOverviewImg} alt="Server Overview" />
-    <h3>Credits</h3>
+  <section class="prose prose-lg max-w-none mx-auto my-8 pb-12 ">
+    <Image src={serverOverviewImg} alt="Server Overview" class="mx-auto block border-6 border-orange-300 rounded-lg"/>
+    <h3 class="pt-5">Credits</h3>
     <p>
       Special thanks to <strong>makosski52</strong> for their guide on using FAX-emu to run a Project Zomboid server.
     </p>
   </section>
+</div>
 </BlogLayout>

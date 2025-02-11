@@ -1,5 +1,12 @@
+---
+import { Image } from "astro:assets";
+import lightLogo from "../images/MCdark.png";
+import "../styles/global.css";
+---
+
 <section id="container">
     <div id="header">
+        <Image src={lightLogo} alt="logo" class="max-w-15"/>
         <a href="/MC-site/">Home</a>
         <a href="/MC-site/about/">About</a>
         <a href="/MC-site/blog/HowToPZServer"
@@ -24,7 +31,6 @@
     #header a {
         color: white;
         text-decoration: none;
-        margin: 0 15px;
     }
 
     #header a:hover {
@@ -45,9 +51,11 @@
     }
 
     #container {
-        margin: 1% 5%;
+        margin-top: 0.5%;
+        margin-left: 10%;
+        margin-right: 10%;
         background: rgb(235,158,128);
-        border-radius: 12px; 
-        font-size:large
+        font-size:large;
+        border-radius: 8px; 
     }
 </style>
