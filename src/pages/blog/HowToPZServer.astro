@@ -7,11 +7,16 @@ import "../../styles/global.css";
 ---
 
 <BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
+<script>
+  import ClipboardJS from "clipboard";
+  new ClipboardJS(".btn");
+</script>
+
 <BlogLayout
   title="Setting Up Your Server"
   description="A detailed guide on setting up your server from scratch."
 >
-  <div class="container max-w-7xl mx-auto bg-[#fef9f8] p-10">
+  <div class="container max-w-7xl mx-auto bg-[#ffffff] p-10">
     <section class="max-w-none mx-auto mb-8">
       <h2>Introduction</h2>
       <p>
@@ -58,20 +63,44 @@ import "../../styles/global.css";
       <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
 
       <h3>4. Set Up the Firewall</h3>
-      <p>If not installed, install UFW:</p>
-      <pre><code>sudo apt install ufw</code></pre>
+      <p>If not installed, install UFWaaaa:</p>
+
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code">sudo apt install ufw</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0"
+          data-clipboard-target="#code"
+        >
+          Copy
+        </button>
+      </div>
       <p>Enable UFW and allow the necessary ports:</p>
-      <pre><code>sudo ufw enable
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code2">sudo ufw enable
 sudo ufw allow 16261/udp
 sudo ufw allow 16262/udp
 sudo ufw reload</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code2"
+        >
+          Copy
+        </button>
+      </div>
     </section>
 
     <section class="max-w-none mx-auto my-8">
       <h3>5. Install Docker</h3>
       <p>Run the following command to install Docker:</p>
-      <pre><code>curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
-
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code3">curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code3"
+        >
+          Copy
+        </button>
+      </div>
       <h3>6. Run the Docker Container</h3>
       <p>Pull the required Docker image and create a container:</p>
       <pre><code>docker pull teriyakigod/steamcmd:arm64</code></pre>
@@ -163,7 +192,7 @@ FEXBash ./start-server.sh</code></pre>
         <li>Restart the server.</li>
       </ol>
 
-      <h2>Keeping the server running</h2>
+      <h2>Keep the server running</h2>
       <p>
         Use <code>screen</code> to keep the server running in the background:
       </p>
