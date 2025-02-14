@@ -1,3 +1,5 @@
+// UNUSED JAVASCRIPT
+
 import ClipboardJS from 'clipboard';
 
 // Initialize Clipboard.js for all elements with the class "copy-button"

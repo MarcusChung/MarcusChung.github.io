@@ -1,0 +1,50 @@
+---
+// Code.astro is a reusable component to copy text from <code>.
+/* example usage:
+ <Code codeSnippet="docker pull teriyakigod/steamcmd:arm64" />
+      <Code
+        codeSnippet={`sudo -u steam -i
+cd Steam
+FEXBash ./steamcmd.sh`}
+      />
+*/
+import { getNextId } from "../components/scripts/counter.js"; //increments a global counter. Removes the need to manually assign id's to each code snippet.
+const { codeSnippet } = Astro.props;
+// Generate a unique ID based on the code snippet
+const id = getNextId();
+---
+
+<script>
+  import ClipboardJS from "clipboard";
+  new ClipboardJS(".btn");
+</script>
+
+<div class="relative flex bg-[#fef9f8] opacity-0.6 mb-1">
+  <pre><code id={id}>{codeSnippet}</code></pre>
+  <button
+    class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+    data-clipboard-target={`#${id}`}
+  >
+    Copy
+  </button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="relative flex bg-[#fef9f8] opacity-0.6">
+  <pre><code id="code6">export CPU_MHZ=2000</code></pre>
+  <button
+    class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+    data-clipboard-target="#code6"
+  >
+    Copy
+  </button>
+</div> -->

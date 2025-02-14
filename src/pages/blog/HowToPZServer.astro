@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import Code from "../../components/Code.astro";
 import BlogHeader from "../../components/Header.astro";
 import serverOverviewImg from "../../images/PZ_ARM_Overview.png";
 import BlogLayout from "../../layouts/Layout.astro";
@@ -7,10 +8,6 @@ import "../../styles/global.css";
 ---
 
 <BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
-<script>
-  import ClipboardJS from "clipboard";
-  new ClipboardJS(".btn");
-</script>
 
 <BlogLayout
   title="Setting Up Your Server"
@@ -56,100 +53,50 @@ import "../../styles/global.css";
       <h3>2. Root access</h3>
       Log in as root user if you don't want to continually add 'sudo' in front of
       every command.
-      <pre><code>sudo su</code></pre>
+      <Code codeSnippet="sudo su"/>
 
       <h3>3. Update the System</h3>
       <p>Update and upgrade the package index:</p>
-      <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
+      <Code codeSnippet="sudo apt-get update && sudo apt-get upgrade" />
 
       <h3>4. Set Up the Firewall</h3>
-      <p>If not installed, install UFWaaaa:</p>
+      <p>If not installed, install UFW:</p>
 
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code">sudo apt install ufw</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0"
-          data-clipboard-target="#code"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="sudo apt install ufw" />
       <p>Enable UFW and allow the necessary ports:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code2">sudo ufw enable
+      <Code
+        codeSnippet={`sudo ufw enable
 sudo ufw allow 16261/udp
 sudo ufw allow 16262/udp
-sudo ufw reload</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code2"
-        >
-          Copy
-        </button>
-      </div>
+sudo ufw reload`}
+      />
     </section>
 
     <section class="max-w-none mx-auto my-8">
       <h3>5. Install Docker</h3>
       <p>Run the following command to install Docker:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code3">curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code3"
-        >
-          Copy
-        </button>
-      </div>
+      <Code
+        codeSnippet="curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh"
+      />
       <h3>6. Run the Docker Container</h3>
       <p>Pull the required Docker image and create a container:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code1">docker pull teriyakigod/steamcmd:arm64</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code1"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="docker pull teriyakigod/steamcmd:arm64" />
 
       <h3>7. Deploy and run the docker container</h3>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code2">run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code2"
-        >
-          Copy
-        </button>
-      </div>
+      <Code
+        codeSnippet={`run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64`}
+      />
 
       <h3>8. Install a Text Editor</h3>
       <p>
         Once inside the container as root, run the following command to install
         a text editor:
       </p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code3">apt-get install nano</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code3"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="apt-get install nano" />
 
       <h3>9. Update the Package Index</h3>
       <p>Update the package index of the container with:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code4">sudo apt-get update && sudo apt-get upgrade</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code4"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="sudo apt-get update && sudo apt-get upgrade" />
 
       <h3>10. Install Screen</h3>
       <p>
@@ -157,41 +104,19 @@ sudo ufw reload</code></pre>
           >screen</code
         >:
       </p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code5">sudo apt install screen -y</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code5"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="sudo apt install screen -y" />
 
       <h3>11. Define CPU Frequency for SteamCMD</h3>
       <p>Before running SteamCMD, define the CPU frequency:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code6">export CPU_MHZ=2000</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code6"
-        >
-          Copy
-        </button>
-      </div>
+      <Code codeSnippet="export CPU_MHZ=2000" />
 
       <h3>12. Launch the Zomboid Server</h3>
       <p>Login as the <code>steam</code> user and run SteamCMD:</p>
-      <div class="relative flex bg-[#fef9f8] opacity-0.6">
-        <pre><code id="code7">sudo -u steam -i
+      <Code
+        codeSnippet={`sudo -u steam -i
 cd Steam
-FEXBash ./steamcmd.sh</code></pre>
-        <button
-          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
-          data-clipboard-target="#code7"
-        >
-          Copy
-        </button>
-      </div>
+FEXBash ./steamcmd.sh`}
+      />
 
       <section class="max-w-none mx-auto my-8">
         <h2>Common Issues</h2>
@@ -212,9 +137,8 @@ FEXBash ./steamcmd.sh</code></pre>
         <h2>Keep the server running</h2>
         <p>
           Use <code>screen</code> to keep the server running in the background:
-        </p>
-        <pre><code>screen FEXBash ./start-server.sh</code></pre>
-        <p>
+          <Code codeSnippet="screen FEXBash ./start-server.sh" />
+
           Detach from the session with <code>Ctrl + A</code>, then <code>D</code
           >.
         </p>

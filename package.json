@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^6.1.0",
     "@tailwindcss/vite": "^4.0.6",
     "astro": "^5.2.5",
     "clipboard": "^2.0.11",
