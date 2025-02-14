@@ -6,14 +6,13 @@ import serverOverviewImg from "../../images/PZ_ARM_Overview.png";
 import BlogLayout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
 ---
-
 <BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
-
 <BlogLayout
   title="Setting Up Your Server"
   description="A detailed guide on setting up your server from scratch."
 >
-  <div class="container max-w-7xl mx-auto bg-[#ffffff] p-10">
+
+  <div class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a] p-10">
     <section class="max-w-none mx-auto mb-8">
       <h2>Introduction</h2>
       <p>
@@ -27,7 +26,7 @@ import "../../styles/global.css";
     <section class="max-w-none mx-auto my-8">
       <h2>Prerequisites</h2>
       <p>An Oracle Cloud VM instance with the following properties:</p>
-      <ul>
+      <ul class="font-light dark:text-blue-400">
         <li>Ampere VM.Standard.A1.Flex OR VM.Standard.E2.1.Micro</li>
         <li>Canonical Ubuntu 22.04</li>
         <li>Open UDP ports 16261 & 16262 in Oracle firewall rules.</li>
@@ -126,7 +125,7 @@ FEXBash ./steamcmd.sh`}
             >this</a
           >, try the following:
         </p>
-        <ol>
+        <ol class="text-[#B6B9C0]">
           <li>Edit the <code>ProjectZomboid64.json</code> file.</li>
           <li>
             Change the <code>"UseZGC"</code> line to <code>"UseG1GC"</code>.

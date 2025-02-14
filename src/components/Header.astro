@@ -1,19 +1,28 @@
 ---
 import { Image } from "astro:assets";
+import ThemeIcon from "../components/ThemeIcon.astro";
+import darkLogo from "../images/MCdark.png";
 import lightLogo from "../images/MClight.png";
+let currentTheme = "light";
+if (typeof window !== "undefined") {
+    currentTheme = localStorage.getItem("theme") || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
 ---
-
-<section class="max-w-full mx-auto bg-blend-color text-lg rounded-b-3xl divide-y divide-gray-200 bg-[#FEF9F8]">
+<section class="max-w-full mx-auto bg-blend-color text-lg rounded-b-3xl divide-y divide-gray-200 bg-[#FEF9F8] dark:bg-[#040712]">
     <div
         class=" text-black py-8 relative flex items-center justify-center"
     >
         <div class="absolute left-5 hidden md:block">
-            <Image src={lightLogo} alt="logo" class="max-w-[20%]" />
+            {currentTheme === "dark" ? (
+            <Image src={darkLogo} alt="dark logo" class="max-w-[20%]" />
+          ) : (
+            <Image src={lightLogo} alt="light logo" class="max-w-[20%]" />
+          )}
         </div>
 
-        <nav class="space-x-4">
-            <a href="/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">Home WIP</a>
-            <a href="/about/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">About WIP</a>
+        <nav class="space-x-4 dark:text-white">
+            <a href="/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">Home</a>
+            <a href="/about/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">About</a>
             <a href="/blog/HowToPZServer" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">
                 Blog
             </a>
@@ -21,6 +30,7 @@ import lightLogo from "../images/MClight.png";
         </nav>
         <!-- To be implemented -->
         <nav class="absolute right-5">
+          <ThemeIcon />
             <!-- <a href="/MC-site/" class="hover:underline">WIP</a> -->
         </nav>
     </div>

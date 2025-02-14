@@ -1,15 +1,17 @@
 ---
 import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
 import "../styles/global.css";
 ---
 <Header />
+<Layout>
 <body>
 	<a href="/index">index</a>
 	<a href="/about/">About</a>
 	<h1>About Me</h1>
 	<h2>... and my new Astro site!</h2>
   
-	<p>My about page!</p>
+	<p>My about page!!</p>
   
 	<p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
 	<p class="text-red-500">If this is red, Tailwind is working!</p>
@@ -17,3 +19,5 @@ import "../styles/global.css";
 		Hello world!
 	  </h1>
   </body>
+
+</Layout>
