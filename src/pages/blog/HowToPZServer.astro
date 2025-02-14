@@ -103,148 +103,167 @@ sudo ufw reload</code></pre>
       </div>
       <h3>6. Run the Docker Container</h3>
       <p>Pull the required Docker image and create a container:</p>
-      <pre><code>docker pull teriyakigod/steamcmd:arm64</code></pre>
-      <p>
-        This container contains FEX-emulator which will allow us to run the PZ
-        server.
-      </p>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code1">docker pull teriyakigod/steamcmd:arm64</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code1"
+        >
+          Copy
+        </button>
+      </div>
 
       <h3>7. Deploy and run the docker container</h3>
-      <pre><code>run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64</code></pre>
-    </section>
-    <section class="max-w-none mx-auto my-8">
-      <h3 class="text-xl font-bold mb-4">8. Install a Text Editor</h3>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code2">run --entrypoint "/bin/sh" -p 16261:16261/udp -p 16262:16262/udp -it -u root teriyakigod/steamcmd:arm64</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code2"
+        >
+          Copy
+        </button>
+      </div>
+
+      <h3>8. Install a Text Editor</h3>
       <p>
         Once inside the container as root, run the following command to install
         a text editor:
       </p>
-      <pre><code>apt-get install nano</code></pre>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code3">apt-get install nano</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code3"
+        >
+          Copy
+        </button>
+      </div>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">9. Update the Package Index</h3>
+      <h3>9. Update the Package Index</h3>
       <p>Update the package index of the container with:</p>
-      <pre><code>sudo apt-get update && sudo apt-get upgrade</code></pre>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code4">sudo apt-get update && sudo apt-get upgrade</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code4"
+        >
+          Copy
+        </button>
+      </div>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">10. Install Screen</h3>
+      <h3>10. Install Screen</h3>
       <p>
         To keep the server running even when the terminal is closed, install <code
           >screen</code
         >:
       </p>
-      <pre><code>sudo apt install screen -y</code></pre>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code5">sudo apt install screen -y</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code5"
+        >
+          Copy
+        </button>
+      </div>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">
-        11. Define CPU Frequency for SteamCMD
-      </h3>
-      <p>
-        Before running SteamCMD, define the CPU frequency. Open <code
-          >steamcmd.sh</code
-        > in a text editor and add this at the top or before <code
-          >cd "$STEAMROOT"</code
-        >:
-      </p>
-      <pre><code>export CPU_MHZ=2000</code></pre>
-      <p>To exit and save, press <code>Ctrl + X</code>, then confirm.</p>
+      <h3>11. Define CPU Frequency for SteamCMD</h3>
+      <p>Before running SteamCMD, define the CPU frequency:</p>
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code6">export CPU_MHZ=2000</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code6"
+        >
+          Copy
+        </button>
+      </div>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">12. Launch the Zomboid Server</h3>
+      <h3>12. Launch the Zomboid Server</h3>
       <p>Login as the <code>steam</code> user and run SteamCMD:</p>
-      <pre><code>sudo -u steam -i
+      <div class="relative flex bg-[#fef9f8] opacity-0.6">
+        <pre><code id="code7">sudo -u steam -i
 cd Steam
 FEXBash ./steamcmd.sh</code></pre>
+        <button
+          class="btn bg-[#e3f3f6] hover:bg-[#daf2f7] text-black rounded-md px-2 absolute right-0 bottom-0"
+          data-clipboard-target="#code7"
+        >
+          Copy
+        </button>
+      </div>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">
-        13. Install the Zomboid Server Files
-      </h3>
-      <p>
-        In SteamCMD, log in as an anonymous user and install the Zomboid server
-        files:
-      </p>
-      <pre><code>login anonymous
-app_update 380870 validate</code></pre>
+      <section class="max-w-none mx-auto my-8">
+        <h2>Common Issues</h2>
+        <p>
+          If you encounter errors like <a
+            href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/"
+            >this</a
+          >, try the following:
+        </p>
+        <ol>
+          <li>Edit the <code>ProjectZomboid64.json</code> file.</li>
+          <li>
+            Change the <code>"UseZGC"</code> line to <code>"UseG1GC"</code>.
+          </li>
+          <li>Restart the server.</li>
+        </ol>
 
-      <h3 class="text-xl font-bold mt-8 mb-4">14. Start the Zomboid Server</h3>
-      <p>
-        Navigate to the server files directory and use <code>FEXBash</code> and <code
-          >screen</code
-        > to run <code>start-server.sh</code>:
-      </p>
-      <pre><code>cd steamapps/common/Project\ Zomboid\ Dedicated\ Server/
-FEXBash ./start-server.sh</code></pre>
-
-      <p class="mt-4">
-        Test if everything is working by connecting to the server using your
-        public IPv4 address from the Oracle Cloud instance created at the start.
-      </p>
-    </section>
-
-    <section class="max-w-none mx-auto my-8">
-      <h2>Common Issues</h2>
-      <p>
-        If you encounter errors like <a
-          href="https://theindiestone.com/forums/index.php?/topic/47417-dedicated-server-on-linux-vps-jre-crashes/"
-          >this</a
-        >, try the following:
-      </p>
-      <ol>
-        <li>Edit the <code>ProjectZomboid64.json</code> file.</li>
-        <li>
-          Change the <code>"UseZGC"</code> line to <code>"UseG1GC"</code>.
-        </li>
-        <li>Restart the server.</li>
-      </ol>
-
-      <h2>Keep the server running</h2>
-      <p>
-        Use <code>screen</code> to keep the server running in the background:
-      </p>
-      <pre><code>screen FEXBash ./start-server.sh</code></pre>
-      <p>
-        Detach from the session with <code>Ctrl + A</code>, then <code>D</code>.
-      </p>
-    </section>
-    <!-- 
+        <h2>Keep the server running</h2>
+        <p>
+          Use <code>screen</code> to keep the server running in the background:
+        </p>
+        <pre><code>screen FEXBash ./start-server.sh</code></pre>
+        <p>
+          Detach from the session with <code>Ctrl + A</code>, then <code>D</code
+          >.
+        </p>
+      </section>
+      <!-- 
     <section class="max-w-none mx-auto my-8">
       
     </section> -->
-    <div class="relative flex items-center justify-center">
-      <section
-        class="max-w-none mx-auto pb-4 flex flex-col md:flex-row md:items-center md:space-x-6"
-      >
-        <div class="md:w-1/2">
-          <h2>Additional Tips</h2>
-          <h3>1. Screen Session Management</h3>
-          <h4>Reattach to a Screen Session</h4>
-          <pre><code>screen -r</code></pre>
+      <div class="relative flex items-center justify-center">
+        <section
+          class="max-w-none mx-auto pb-4 flex flex-col md:flex-row md:items-center md:space-x-6"
+        >
+          <div class="md:w-1/2">
+            <h2>Additional Tips</h2>
+            <h3>1. Screen Session Management</h3>
+            <h4>Reattach to a Screen Session</h4>
+            <pre><code>screen -r</code></pre>
 
-          <h4>Check Running Sessions</h4>
-          <pre><code>screen -ls</code></pre>
+            <h4>Check Running Sessions</h4>
+            <pre><code>screen -ls</code></pre>
 
-          <h3>2. Docker Tips</h3>
-          <p>Basic Docker commands for managing your containers:</p>
-          <h4>Checking Containers</h4>
-          <pre><code>docker ps</code></pre>
-          <p>List all containers:</p>
-          <pre><code>docker ps -a</code></pre>
+            <h3>2. Docker Tips</h3>
+            <p>Basic Docker commands for managing your containers:</p>
+            <h4>Checking Containers</h4>
+            <pre><code>docker ps</code></pre>
+            <p>List all containers:</p>
+            <pre><code>docker ps -a</code></pre>
 
-          <h4>Attaching to a Running Container</h4>
-          <pre><code>docker exec -it &lt;container_id&gt; /bin/sh</code></pre>
+            <h4>Attaching to a Running Container</h4>
+            <pre><code>docker exec -it &lt;container_id&gt; /bin/sh</code></pre>
 
-          <h4>Stopping and Removing Containers</h4>
+            <h4>Stopping and Removing Containers</h4>
 
-          <pre><code>docker stop &lt;container_id&gt;
+            <pre><code>docker stop &lt;container_id&gt;
 docker rm &lt;container_id&gt;</code></pre>
-        </div>
-        <div class="md:w-1/2">
-          <Image
-            src={serverOverviewImg}
-            alt="Server Overview"
-            class="mx-auto block w-3/4 md:w-full border-6 border-orange-300 rounded-lg"
-          />
-        </div>
-      </section>
-    </div>
-    <p class="text-center">
-      Special thanks to <strong>makosski52</strong> for their guide on using FAX-emu
-      to run a Project Zomboid server.
-    </p>
+          </div>
+          <div class="md:w-1/2">
+            <Image
+              src={serverOverviewImg}
+              alt="Server Overview"
+              class="mx-auto block w-3/4 md:w-full border-6 border-orange-300 rounded-lg"
+            />
+          </div>
+        </section>
+      </div>
+      <p class="text-center">
+        Special thanks to <strong>makosski52</strong> for their guide on using FAX-emu
+        to run a Project Zomboid server.
+      </p>
+    </section>
   </div>
 </BlogLayout>

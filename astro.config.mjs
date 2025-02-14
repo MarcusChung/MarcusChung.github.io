@@ -7,7 +7,6 @@ const URL = 'https://MarcusChung.github.io';
 // https://marcuschung.github.io/MC-site/
 export default defineConfig({
     site: URL,
-    base: "/MC-site",
     vite: {
         plugins: [tailwindcss()],
     },
