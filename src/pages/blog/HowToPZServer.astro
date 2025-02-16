@@ -16,10 +16,12 @@ import "../../styles/global.css";
     <section class="max-w-none mx-auto mb-8">
       <h2>Introduction</h2>
       <p>
-        Currently, Project Zomboid does not support ARM64 servers, making it
-        difficult to set up a multiplayer server. We will use an emulator to
-        bypass this restriction. This guide provides a step-by-step process for
-        setting up a server using a working solution, suitable for beginners.
+        At present, Project Zomboid lacks support for ARM64 servers, 
+        which complicates the establishment of a multiplayer server. 
+        To circumvent this limitation, we will utilize an emulator. 
+        This guide outlines a comprehensive, step-by-step procedure 
+        for configuring a server using an effective solution, 
+        designed to accommodate beginners.
       </p>
     </section>
 
@@ -35,9 +37,9 @@ import "../../styles/global.css";
         If you're unfamiliar with setting up a VM instance using Oracle Cloud,
         check out this <a
           href="https://www.youtube.com/watch?v=0kFjEUDJexI&list=WL&index=3&t=1215s"
-          target="_blank"
+          class="underline font-bold"
         >
-          video guide
+        video
         </a> (watch until 12:51 for the relevant parts).
       </p>
     </section>
@@ -137,8 +139,9 @@ FEXBash ./steamcmd.sh`}
           Use <code>screen</code> to keep the server running in the background:
           <Code codeSnippet="screen FEXBash ./start-server.sh" />
 
-          Detach from the session with <code>Ctrl + A</code>, then <code>D</code
-          >.
+          <p>Detach from the session with </p>
+          <code>Ctrl + A, then D.</code>
+          
         </p>
       </section>
       <!-- 

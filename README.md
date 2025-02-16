@@ -3,7 +3,7 @@
 ```sh
 npm create astro@latest -- --template basics
 ```
-[Visit my GH Page](https://marcuschung.github.io/MC-site/)
+[Visit my GH Page](https://marcuschung.github.io/)
 
 ## 🚀 Project Structure
 

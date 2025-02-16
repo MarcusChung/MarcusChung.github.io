@@ -1,24 +1,18 @@
 ---
-import { Image } from "astro:assets";
 import ThemeIcon from "../components/ThemeIcon.astro";
-import darkLogo from "../images/MCdark.png";
-import lightLogo from "../images/MClight.png";
-let currentTheme = "light";
-if (typeof window !== "undefined") {
-    currentTheme = localStorage.getItem("theme") || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-}
 ---
+<!-- bg-[#040712] -->
 <section class="max-w-full mx-auto bg-blend-color text-lg rounded-b-3xl divide-y divide-gray-200 bg-[#FEF9F8] dark:bg-[#040712]">
     <div
         class=" text-black py-8 relative flex items-center justify-center"
     >
-        <div class="absolute left-5 hidden md:block">
-            {currentTheme === "dark" ? (
-            <Image src={darkLogo} alt="dark logo" class="max-w-[20%]" />
-          ) : (
-            <Image src={lightLogo} alt="light logo" class="max-w-[20%]" />
-          )}
-        </div>
+        <!-- <div class="absolute left-5 hidden md:block dark:bg-[url('../images/MCdark.png')">
+            <Image id="headerLogo" src={lightLogo} alt="light logo11" class="max-w-[20%]" />
+        </div> -->
+<!-- This is a fun but unpractical way of making the logo change without any javascript. -->
+    <ul class="absolute left-5 hidden md:block before:absolute before:left-0 before:top-0 before:w-16 before:h-16 before:bg-no-repeat before:bg-contain before:content-[''] before:block before:z-10 dark:before:bg-[url('../images/MCdark.png')] before:bg-[url('../images/MClight.png')]">
+        <li></li>
+    </ul>
 
         <nav class="space-x-4 dark:text-white">
             <a href="/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">Home</a>
