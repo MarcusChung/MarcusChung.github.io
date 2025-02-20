@@ -9,13 +9,17 @@ import bulb from "../images/bulboff.jpg";
 import logo from "../images/MClight.png";
 import car from "../images/car.png";
 import circle from "../images/circle.png";
+import Welcome from "../components/Welcome.astro";
+// import back from "../assets/liquid-cheese.svg";
 ---
 
 <script src="../components/scripts/animations.js"></script>
+<!-- <Welcome /> -->
 <Header />
 <Layout>
+	<!-- <Image src={back} alt="background" class="min-h-screen bg-center w-full h-full"/> -->
 	<div
-		class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a] p-10"
+class="container max-w-7xl mx-auto p-10"
 	>
 		<section
 			class="flex items-center justify-center max-w-none mx-auto my-4"
@@ -55,7 +59,13 @@ import circle from "../images/circle.png";
 				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
 				>Turn off the light
 			</button>
-
+		</section>
+		<section>
+			<div class="container text-center items-center">
+				<h2 id="mainText"> Here lies some text that will be used as the main content for sure!</h2>
+			</div>
+		</section>
+		<section class="mt-500">
 			<p id="demo2">wordy word</p>
 			<button
 				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"

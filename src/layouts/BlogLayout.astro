@@ -1,5 +1,3 @@
----
----
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Marcus's Home Page</title>
+    <title>Marcus's Github Page</title>
   </head>
-
-  <body class="bg-cover bg-fixed bg-center min-h-screen bg-[url('../assets/liquid-cheese.svg')]">
+  <!-- <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  </script> -->
+  <body class="text-left bg-[#e3f3f6] dark:bg-[#040712] w-full h-full min-h-screen">
     <slot />
   </body>
 </html>

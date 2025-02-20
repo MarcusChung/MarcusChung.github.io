@@ -3,25 +3,24 @@ import { Image } from "astro:assets";
 import Code from "../../components/Code.astro";
 import BlogHeader from "../../components/Header.astro";
 import serverOverviewImg from "../../images/PZ_ARM_Overview.png";
-import BlogLayout from "../../layouts/Layout.astro";
+import BlogLayout from "../../layouts/BlogLayout.astro";
 import "../../styles/global.css";
 ---
+
 <BlogHeader title="Setting Up Your Server" date="February 8, 2025" />
 <BlogLayout
   title="Setting Up Your Server"
   description="A detailed guide on setting up your server from scratch."
 >
-
   <div class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a] p-10">
     <section class="max-w-none mx-auto mb-8">
       <h2>Introduction</h2>
       <p>
-        At present, Project Zomboid lacks support for ARM64 servers, 
-        which complicates the establishment of a multiplayer server. 
-        To circumvent this limitation, we will utilize an emulator. 
-        This guide outlines a comprehensive, step-by-step procedure 
-        for configuring a server using an effective solution, 
-        designed to accommodate beginners.
+        At present, Project Zomboid lacks support for ARM64 servers, which
+        complicates the establishment of a multiplayer server. To circumvent
+        this limitation, we will utilize an emulator. This guide outlines a
+        comprehensive, step-by-step procedure for configuring a server using an
+        effective solution, designed to accommodate beginners.
       </p>
     </section>
 
@@ -39,7 +38,7 @@ import "../../styles/global.css";
           href="https://www.youtube.com/watch?v=0kFjEUDJexI&list=WL&index=3&t=1215s"
           class="underline font-bold"
         >
-        video
+          video
         </a> (watch until 12:51 for the relevant parts).
       </p>
     </section>
@@ -52,8 +51,11 @@ import "../../styles/global.css";
         don't know how, watch the video)]
       </p>
       <h3>2. Root access</h3>
-      <p>Log in as root user if you don't want to continually add 'sudo' in front of every command.</p>
-      <Code codeSnippet="sudo su"/>
+      <p>
+        Log in as root user if you don't want to continually add 'sudo' in front
+        of every command.
+      </p>
+      <Code codeSnippet="sudo su" />
 
       <h3>3. Update the System</h3>
       <p>Update and upgrade the package index:</p>
@@ -139,9 +141,8 @@ FEXBash ./steamcmd.sh`}
           Use <code>screen</code> to keep the server running in the background:
           <Code codeSnippet="screen FEXBash ./start-server.sh" />
 
-          <p>Detach from the session with </p>
+          <p>Detach from the session with</p>
           <code>Ctrl + A, then D.</code>
-          
         </p>
       </section>
       <!-- 
@@ -176,8 +177,21 @@ FEXBash ./steamcmd.sh`}
             <pre><code>docker stop &lt;container_id&gt;
 docker rm &lt;container_id&gt;</code></pre>
           </div>
+          <script>
+            import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.from("#PZ", {
+              scrollTrigger: "#PZ",
+              duration: 4,
+              opacity: 0,
+              scale: 0.3,
+              ease: "back",
+            });
+          </script>
           <div class="md:w-1/2">
             <Image
+              id="PZ"
               src={serverOverviewImg}
               alt="Server Overview"
               class="mx-auto block w-3/4 md:w-full border-6 border-orange-300 rounded-lg"
