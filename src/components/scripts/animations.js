@@ -18,11 +18,37 @@ gsap.from("#mainText", {
     trigger: "#mainText",
     toggleActions: "restart pause reverse pause",
     markers: true,
-    start: "top center",
+    start: "top 80%",
+    scrub: 1,
+    pin: true,
   },
   x: 200,
   rotation: 360,
   duration: 4,
+});
+
+// gsap to animate the reveal sections
+document.addEventListener("DOMContentLoaded", () => {
+  const revealSections = document.querySelectorAll(".reveal-section");
+
+  revealSections.forEach((section) => {
+    gsap.fromTo(
+      section,
+      { autoAlpha: 0, y: 20 },
+      {
+        duration: 1,
+        autoAlpha: 1,
+        y: 0,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: section,
+          start: "top center+=100",
+          toggleActions: "play none none reverse",
+          markers: true,
+        },
+      }
+    );
+  });
 });
 
 // export function animateIntro() {

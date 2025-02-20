@@ -3,14 +3,13 @@
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
-import { Image } from "astro:assets";
-import bulb from "../images/bulboff.jpg";
+// import { Image } from "astro:assets";
+// import bulb from "../images/bulboff.jpg";
 
-import logo from "../images/MClight.png";
-import car from "../images/car.png";
-import circle from "../images/circle.png";
-import Welcome from "../components/Welcome.astro";
-// import back from "../assets/liquid-cheese.svg";
+// import logo from "../images/MClight.png";
+// import car from "../images/car.png";
+// import circle from "../images/circle.png";
+// import Welcome from "../components/Welcome.astro";
 ---
 
 <script src="../components/scripts/animations.js"></script>
@@ -18,60 +17,31 @@ import Welcome from "../components/Welcome.astro";
 <Header />
 <Layout>
 	<!-- <Image src={back} alt="background" class="min-h-screen bg-center w-full h-full"/> -->
-	<div
-class="container max-w-7xl mx-auto p-10"
-	>
-		<section
-			class="flex items-center justify-center max-w-none mx-auto my-4"
-		>
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image id="logo" src={logo} alt="temp logo" class="w-32 h-auto" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-		</section>
-		<section class="max-w-none mx-auto my-8">
-			<h1> My Playground </h1>
-			<button type="button" onclick="alert(Date())">
-				Click me to display Date and Time
-			</button>
-
-			<p id="demo" class="mt-4">
-				this text gonna change if u click on dat button
-			</p>
-			<button
-				type="button"
-				onclick='document.getElementById("demo").innerHTML = "Hello javascript!!!!!!!!l"'
-				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-			>
-				click here
-			</button>
-
-			<!-- use Image for astro's optimised image rendering. In cases where i can't then just try to use Image as much as possible or mix it together.-->
-			<Image id="bulb" src={bulb} alt="bulb" style="width:100px" />
-			<button
-				onclick="document.getElementById('bulb').src='../pubImages/bulbon.webp'"
-				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-				>Turn on the light</button
-			>
-			<button
-				onclick="document.getElementById('bulb').src='../pubImages/bulboff.jpg'"
-				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-				>Turn off the light
-			</button>
-		</section>
-		<section>
-			<div class="container text-center items-center">
-				<h2 id="mainText"> Here lies some text that will be used as the main content for sure!</h2>
-			</div>
-		</section>
-		<section class="mt-500">
-			<p id="demo2">wordy word</p>
-			<button
-				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-				onclick="document.getElementById('demo2').innerHTML ='aaaaaaaaaaaaaaaaaaaaa'"
-				>clicky here</button
-			>
-		</section>
-	</div>
+	<body class="text-gray-900">
+		<main class="container mx-auto m-60 px-8 space-y-80 text-8xl">
+		  <section class="reveal-section">
+			<p>Welcome to my Github Page.</p>
+		  </section>
+		  <section class="reveal-section">
+			<p>The possibilities with web development is endless.</p>
+		  </section>
+		  <section class="reveal-section">
+			<p>In this github page, I am the artist.</p>
+		  </section>
+		  <section class="reveal-section">
+			<p>I can make things appear.</p>
+		  </section>
+		  <section class="reveal-section">
+			<p>Or dissappear.</p>
+		  </section>
+		  <section class="reveal-section">
+			<p> The only limit</p>
+		  </section>
+		  <section class="reveal-section">
+			<p>is my creativity.</p>
+		  </section>
+		</main>
+		<!-- add a div spacer -->
+		<div class="spacer py-24"></div>
+	  </body>
 </Layout>

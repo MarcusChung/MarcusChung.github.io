@@ -1,40 +1,74 @@
 ---
 import ThemeIcon from "../components/ThemeIcon.astro";
 ---
+
 <!-- bg-[#040712] -->
-<section class="max-w-full mx-auto bg-blend-color text-lg rounded-b-3xl divide-y divide-gray-200 bg-[#FEF9F8] dark:bg-[#040712]">
-    <div
-        class=" text-black py-8 relative flex items-center justify-center"
-    >
-        <!-- <div class="absolute left-5 hidden md:block dark:bg-[url('../images/MCdark.png')">
+<section
+    id="headerSection"
+    class="max-w-full mx-auto bg-blend-color text-lg rounded-b-3xl divide-y divide-gray-200 bg-[#FEF9F8] dark:bg-[#040712]"
+>
+    <div id="mainHeader">
+        <div class="text-black py-8 relative flex items-center justify-center">
+            <!-- <div class="absolute left-5 hidden md:block dark:bg-[url('../images/MCdark.png')">
             <Image id="headerLogo" src={lightLogo} alt="light logo11" class="max-w-[20%]" />
         </div> -->
-<!-- This is a fun but unpractical way of making the logo change without any javascript. -->
-    <ul class="absolute left-5 hidden md:block before:absolute before:left-0 before:top-0 before:w-16 before:h-16 before:bg-no-repeat before:bg-contain before:content-[''] before:block before:z-10 dark:before:bg-[url('../images/MCdark.png')] before:bg-[url('../images/MClight.png')]">
-        <li></li>
-    </ul>
+            <!-- This is a fun but unpractical way of making the logo change without any javascript. -->
+            <ul
+                class="absolute left-5 hidden md:block before:absolute before:left-0 before:top-0 before:w-16 before:h-16 before:bg-no-repeat before:bg-contain before:content-[''] before:block before:z-10 dark:before:bg-[url('../images/MCdark.png')] before:bg-[url('../images/MClight.png')]"
+            >
+                <li></li>
+            </ul>
 
-        <nav class="space-x-4 dark:text-white">
-            <a href="/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">Home</a>
-            <a href="/about/" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">About</a>
-            <a href="/blog/HowToPZServer" class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300">
-                Blog
-            </a>
-            
-        </nav>
-        <!-- To be implemented -->
-        <nav class="absolute right-5">
-          <ThemeIcon />
-            <!-- <a href="/MC-site/" class="hover:underline">WIP</a> -->
-        </nav>
-    </div>
-    <div class="text-center pb-1 pt-3 border-b-gray-200 border-b-1 w-3/4 mx-auto">
-        <p>
-            Check out my latest blog post:
-            <a href="/blog/HowToPZServer" class="hover:underline">
-                How to create a free Project Zomboid server using Oracle Cloud's
-                free tier services
-            </a>
-        </p>
+            <nav class="space-x-4 dark:text-white">
+                <a
+                    href="/"
+                    class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300"
+                    >Home</a
+                >
+                <a
+                    href="/about/"
+                    class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300"
+                    >About</a
+                >
+                <a
+                    href="/blog/HowToPZServer"
+                    class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300"
+                >
+                    Blog
+                </a>
+            </nav>
+            <!-- To be implemented -->
+            <nav class="absolute right-5">
+                <ThemeIcon />
+                <button
+                    type="button"
+                    id="hideBtn"
+                    class="font-bold hover:bg-amber-300 dark:text-white mx-1"
+                    onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden");'
+                >
+                    Hide
+                </button>
+            </nav>
+        </div>
+        <div
+            class="text-center pb-1 pt-3 border-b-gray-200 border-b-1 w-3/4 mx-auto"
+        >
+            <p>
+                Check out my latest blog post:
+                <a href="/blog/HowToPZServer" class="hover:underline">
+                    How to create a free Project Zomboid server using Oracle
+                    Cloud's free tier services
+                </a>
+            </p>
+        </div>
     </div>
 </section>
+<button
+type="button"
+id="showBtn"
+class="font-bold text-black dark:text-white hover:bg-blue-950 hidden fixed top-5 right-0 mt-4 mr-4"
+onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden");'
+>
+Show
+</button>
+
