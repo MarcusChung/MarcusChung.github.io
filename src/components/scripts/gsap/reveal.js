@@ -11,12 +11,13 @@ window.addEventListener("load", () => {
     ease: "back",
   });
 
+  //turn off markers when you push to production because they can block the 'show header' button.
   gsap.from("#disappear p", {
     scrollTrigger: {
       trigger: "#disappear",
       scroller: "main",
       start: "top center",
-      markers: true,
+      // markers: true,
       toggleActions: "play reverse play reverse",
       onEnter: () => {
         gsap.to("#disappear p", {
