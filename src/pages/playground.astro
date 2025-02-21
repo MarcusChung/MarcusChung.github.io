@@ -14,6 +14,21 @@ import Welcome from "../components/Welcome.astro";
 ---
 
 <script src="../components/scripts/gsap/animations.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		window.addEventListener("load", function () {
+			// Get the height of the header section
+			const headerHeight =
+				document.getElementById("headerSection")?.offsetHeight ?? 0;
+
+			// Scroll down by the height of the header
+			window.scrollTo({
+				top: headerHeight,
+				behavior: "smooth",
+			});
+		});
+	});
+</script>
 <!-- <Welcome /> -->
 <Header />
 <Layout>

@@ -54,6 +54,16 @@ pre {
   border-radius: 0.375rem;
 }
 
+main {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+main::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 /* optional todo: device preferred colour scheme. */
 /* @media (prefers-color-scheme: dark) {
 
