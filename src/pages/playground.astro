@@ -1,7 +1,7 @@
 ---
 // import { BASE_PATH } from 'constants.js';
 import Header from "../components/Header.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/BlogLayout.astro";
 import "../styles/global.css";
 import { Image } from "astro:assets";
 import bulb from "../images/bulboff.jpg";
@@ -13,13 +13,12 @@ import Welcome from "../components/Welcome.astro";
 // import back from "../assets/liquid-cheese.svg";
 ---
 
-<script src="../components/scripts/animations.js"></script>
+<script src="../components/scripts/gsap/animations.js"></script>
 <!-- <Welcome /> -->
 <Header />
 <Layout>
-	<!-- <Image src={back} alt="background" class="min-h-screen bg-center w-full h-full"/> -->
 	<div
-class="container max-w-7xl mx-auto p-10"
+class="container max-w-7xl mx-auto p-10 bg-[#ffffff] dark:bg-[#0e101a]"
 	>
 		<section
 			class="flex items-center justify-center max-w-none mx-auto my-4"
@@ -37,7 +36,7 @@ class="container max-w-7xl mx-auto p-10"
 			</button>
 
 			<p id="demo" class="mt-4">
-				this text gonna change if u click on dat button
+				this text gis going to change if u click that button
 			</p>
 			<button
 				type="button"
@@ -62,14 +61,14 @@ class="container max-w-7xl mx-auto p-10"
 		</section>
 		<section>
 			<div class="container text-center items-center">
-				<h2 id="mainText"> Here lies some text that will be used as the main content for sure!</h2>
+				<h2 id="mainText"> Here lies some text that will be used for the main content! Probably!!</h2>
 			</div>
 		</section>
-		<section class="mt-500">
+		<section class="mt-50">
 			<p id="demo2">wordy word</p>
 			<button
 				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-				onclick="document.getElementById('demo2').innerHTML ='aaaaaaaaaaaaaaaaaaaaa'"
+				onclick="document.getElementById('demo2').innerHTML ='!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'"
 				>clicky here</button
 			>
 		</section>

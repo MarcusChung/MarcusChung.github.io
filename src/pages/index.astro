@@ -12,36 +12,51 @@ import "../styles/global.css";
 // import Welcome from "../components/Welcome.astro";
 ---
 
-<script src="../components/scripts/animations.js"></script>
+<script src="../components/scripts/gsap/reveal.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		window.addEventListener("load", function () {
+			// Get the height of the header section
+			const headerHeight =
+				document.getElementById("headerSection")?.offsetHeight ?? 0;
+
+			// Scroll down by the height of the header
+			window.scrollTo({
+				top: headerHeight,
+				behavior: "smooth",
+			});
+		});
+	});
+</script>
 <!-- <Welcome /> -->
 <Header />
 <Layout>
 	<!-- <Image src={back} alt="background" class="min-h-screen bg-center w-full h-full"/> -->
-	<body class="text-gray-900">
-		<main class="container mx-auto m-60 px-8 space-y-80 text-8xl">
-		  <section class="reveal-section">
-			<p>Welcome to my Github Page.</p>
-		  </section>
-		  <section class="reveal-section">
-			<p>The possibilities with web development is endless.</p>
-		  </section>
-		  <section class="reveal-section">
-			<p>In this github page, I am the artist.</p>
-		  </section>
-		  <section class="reveal-section">
-			<p>I can make things appear.</p>
-		  </section>
-		  <section class="reveal-section">
-			<p>Or dissappear.</p>
-		  </section>
-		  <section class="reveal-section">
-			<p> The only limit</p>
-		  </section>
-		  <section class="reveal-section">
-			<p>is my creativity.</p>
-		  </section>
+	<body>
+		<main class="container mx-auto m-60 px-8 space-y-90 text-8xl text-center">
+			<section class="reveal-section">
+				<p>Welcome to my Github Page.</p>
+			</section>
+			<section class="reveal-section">
+				<p>The possibilities with web development is endless.</p>
+			</section>
+			<section class="reveal-section">
+				<p>In this Github page, I am the artist.</p>
+			</section>
+			<section class="reveal-section">
+				<p>I can make things appear.</p>
+			</section>
+			<section class="reveal-section">
+				<p>Or disappear.</p>
+			</section>
+			<section class="reveal-section">
+				<p>The only <a class="font-bold">limit</a></p>
+			</section>
+			<section class="reveal-section">
+				<p>is my <a class="font-bold">creativity.</a></p>
+			</section>
 		</main>
 		<!-- add a div spacer -->
-		<div class="spacer py-24"></div>
-	  </body>
+		<div class="spacer py-32"></div>
+	</body>
 </Layout>
