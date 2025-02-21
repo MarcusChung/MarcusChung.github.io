@@ -18,6 +18,7 @@ import ThemeIcon from "../components/ThemeIcon.astro";
             >
                 <li></li>
             </ul>
+            <!-- <nav class="space-x-4 dark:text-white whitespace-nowrap"> -->
             <nav class="space-x-4 dark:text-white">
                 <a
                     href="/"
@@ -36,10 +37,10 @@ import ThemeIcon from "../components/ThemeIcon.astro";
                     Blog
                 </a>
                 <a
-                href="/playground/"
-                class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300"
-            >
-                Playground
+                    href="/playground/"
+                    class="relative px-4 py-2 hover:bg-gray-300 rounded-full transition-all duration-300"
+                >
+                    Playground
                 </a>
             </nav>
             <!-- To be implemented -->
@@ -55,25 +56,25 @@ import ThemeIcon from "../components/ThemeIcon.astro";
                 </button>
             </nav>
         </div>
-        </div>
-        <div
-            class="text-center pb-1 pt-3 border-b-gray-200 border-b-1 w-3/4 mx-auto"
-        >
-            <p>
-                Check out my latest blog post:
-                <a href="/blog/HowToPZServer" class="hover:underline">
-                    How to create a free Project Zomboid server using Oracle
-                    Cloud's free tier services
-                </a>
-            </p>
-        </div>
+    </div>
+    <div
+        class="text-center pb-1 pt-3 border-b-gray-200 border-b-1 w-3/4 mx-auto"
+    >
+        <p>
+            Check out my latest blog post:
+            <a href="/blog/HowToPZServer" class="hover:underline">
+                How to create a free Project Zomboid server using Oracle Cloud's
+                free tier services
+            </a>
+        </p>
     </div>
 </section>
+
 <button
-type="button"
-id="showBtn"
-class="font-bold text-black dark:text-white hover:bg-blue-950 hidden fixed top-5 right-0 mt-4 mr-4"
-onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden");'
+    type="button"
+    id="showBtn"
+    class="font-bold text-black dark:text-white hover:bg-blue-950 hidden fixed top-5 right-0 mt-4 mr-4"
+    onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden");'
 >
-Show
+    Show
 </button>

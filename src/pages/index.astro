@@ -3,13 +3,6 @@
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
-// import { Image } from "astro:assets";
-// import bulb from "../images/bulboff.jpg";
-
-// import logo from "../images/MClight.png";
-// import car from "../images/car.png";
-// import circle from "../images/circle.png";
-// import Welcome from "../components/Welcome.astro";
 ---
 
 <script src="../components/scripts/gsap/reveal.js"></script>
@@ -33,30 +26,30 @@ import "../styles/global.css";
 <Layout>
 	<!-- <Image src={back} alt="background" class="min-h-screen bg-center w-full h-full"/> -->
 	<body class="overflow-x-hidden">
-		<main class="container max-w-full mx-auto m-60 space-y-90 text-8xl sm:text-5xl text-center">
+		<main class="container mx-auto px-4 sm:px-8 md:px-16 xl:px-32 space-y-[50%] mt-[20%] text-5xl sm:text-4xl md:text-6xl lg:text-7xl text-center">
 			<section class="reveal-section">
-				<p>Welcome to my Github Page.</p>
+			  <p>Welcome to my Github Page.</p>
 			</section>
 			<section class="reveal-section">
-				<p>The possibilities with web development is endless!</p>
+			  <p>The possibilities with web development is endless.</p>
 			</section>
 			<section class="reveal-section">
-				<p>In this Github page, I am the artist.</p>
+			  <p>In this Github page, I am the artist.</p>
 			</section>
 			<section class="reveal-section">
-				<p>I can make things appear.</p>
+			  <p>I can make things appear.</p>
 			</section>
 			<section class="reveal-section">
-				<p>Or disappear.</p>
+			  <p>Or disappear.</p>
 			</section>
 			<section class="reveal-section">
-				<p>The only <a class="font-bold">limit</a></p>
+			  <p>The only <a class="font-bold">limit</a></p>
 			</section>
 			<section class="reveal-section">
-				<p>is my <a class="font-bold">creativity.</a></p>
+			  <p>is my <a class="font-bold">creativity.</a></p>
 			</section>
-		</main>
+			<div class="spacer py-10"></div>
+		  </main>
 		<!-- add a div spacer -->
-		<div class="spacer py-32"></div>
 	</body>
 </Layout>
