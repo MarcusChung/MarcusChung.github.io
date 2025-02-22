@@ -87,3 +87,117 @@ const logo = document.getElementById("logo");
 if (logo) {
   logo.addEventListener("mouseenter", animateCircles);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// window.addEventListener("load", () => {
+  // gsap.from("#appear", {
+  //   opacity: 100, 
+  //   y: 200, 
+  //   duration: 2,
+  //   ease: "ease",
+  //   scrollTrigger: {
+  //     trigger: "#appear",
+  //     start: "top center",
+  //     scroller: "main",
+  //     toggleActions: "play none none reverse",
+  //     markers: false,
+  //     onEnter: () => possSection.classList.remove("snap-center"), 
+  //     onLeaveBack: () => possSection.classList.add("snap-center"), 
+  //   },
+  // });
+
+  // gsap.from("#pikachu", {
+  //   opacity: 0, 
+  //   y: 500, 
+  //   duration: 10,
+  //   ease: "ease",
+  // });
+// });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     const revealSections = document.querySelectorAll(".reveal-section");
+  
+//     revealSections.forEach((section) => {
+//       gsap.fromTo(
+//         section,
+//         { autoAlpha: 0, y: 20 },
+//         {
+//           duration: 1,
+//           autoAlpha: 1,
+//           y: 0,
+//           ease: "power2.inOut",
+//           scrollTrigger: {
+//             scroller: "#main1",
+//             trigger: section,
+//             start: "top center+=100",
+//             toggleActions: "play none none reverse",
+//             markers: true,
+//             snap: {
+//               snapTo: 1,
+//               duration: { min:0.2, max:0.5},
+//               ease: "power1.inOut",
+//             }
+//           },
+//         }
+//       );
+//     });
+//   });
+
+
+// document.addEventListener("DOMContentLoaded", () => {
+// gsap.from("#disappear", {
+//   duration: 1.5, 
+//   opacity: 0, 
+//   scale: 0.3, 
+//   ease: "back",
+//   scrollTrigger: {
+//     trigger: "#disappear",
+//     scroller: "#main1",
+//     toggleActions: "restart pause reverse reverse",
+//     markers: true,
+//     start: "top",
+//     end: "bottom",
+//     scrub: 1,
+//     pin: true,
+//   },
+// });
+// });
+
+
+
+// gsap.from("#reveal2", {
+//   scrollTrigger: {
+//     trigger: "#reveal2", 
+//     toggleActions: "restart pause reverse reverse",
+//     markers: true, 
+//     start: "top 80%", 
+//     end: "bottom 10%",
+//     scrub: 1,
+//     pin: true,
+//   },
+//   // Define your animation properties here
+//   opacity: 0,
+//   y: 50,
+//   duration: 1,
+// });

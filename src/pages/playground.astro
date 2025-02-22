@@ -14,6 +14,8 @@ import Welcome from "../components/Welcome.astro";
 ---
 
 <script src="../components/scripts/gsap/animations.js"></script>
+<script src="../components/scripts/gsap/imageAndTextMove.js"></script>
+
 <script>
 	document.addEventListener("DOMContentLoaded", () => {
 		window.addEventListener("load", function () {
@@ -45,7 +47,7 @@ class="container max-w-7xl mx-auto p-10 bg-[#ffffff] dark:bg-[#0e101a]"
 			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
 		</section>
 		<section class="max-w-none mx-auto my-8">
-			<h1> My Playground </h1>
+			<h1 id="playground"> My Playground </h1>
 			<button type="button" onclick="alert(Date())">
 				Click me to display Date and Time
 			</button>

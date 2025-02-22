@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 import { Image } from "astro:assets";
+import pikachu from "../images/pikachu.jpg";
 import upArrow from "../images/upArrow.png";
 
 ---
@@ -24,11 +25,12 @@ import upArrow from "../images/upArrow.png";
 		});
 	});
 </script>
-
+<script src="../components/scripts/gsap/particles.js"></script>
 <Header />
-<Layout>
+<Layout id="layout">
 	<body class="overflow-x-hidden">
 		<main
+			id="mainElement"
 			class="h-screen snap-y snap-mandatory overflow-y-scroll px-4 sm:px-8 md:px-16 xl:px-32 text-5xl sm:text-4xl md:text-6xl lg:text-7xl"
 		>
 			<a id="top"></a>
@@ -39,7 +41,8 @@ import upArrow from "../images/upArrow.png";
 				<p>Welcome to my Github Page.</p>
 			</section>
 			<section
-				class="min-h-screen flex items-center justify-center snap-center"
+				id="poss"
+				class="min-h-screen flex flex-col items-center justify-center snap-center"
 			>
 				<p>The possibilities with web development are endless.</p>
 			</section>
@@ -49,9 +52,10 @@ import upArrow from "../images/upArrow.png";
 				<p>In this page, I am the artist.</p>
 			</section>
 			<section
-				class="min-h-screen flex items-center justify-center snap-center"
+				class="min-h-screen flex flex-col items-center justify-center snap-center"
 			>
-				<p>I can make things appear.</p>
+				<p id="appear">I can make things appear.</p>
+				<Image id="pikachu" src={pikachu} alt="pikachu" height="500"/>
 			</section>
 			<section
 				id="disappear"

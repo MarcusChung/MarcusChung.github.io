@@ -10,6 +10,22 @@ window.addEventListener("load", () => {
     scale: 0.3,
     ease: "back",
   });
+  
+   gsap.from("#poss", {
+    opacity: 0, 
+    y: 50, 
+    duration: 1,
+    rotate: 360,
+    ease: "ease",
+    scrollTrigger: {
+      trigger: "#poss",
+      start: "top center",
+      scroller: "main",
+      toggleActions: "play none none none",
+      markers: false,
+    },
+  });
+
 
   //turn off markers when you push to production because they can block the 'show header' button.
   gsap.from("#disappear p", {
@@ -17,9 +33,9 @@ window.addEventListener("load", () => {
       trigger: "#disappear",
       scroller: "main",
       start: "top center",
-      // markers: true,
+      markers: false,
       toggleActions: "play reverse play reverse",
-      onEnter: () => {
+      onEnter: () => {  // Remove snap
         gsap.to("#disappear p", {
           opacity: 0,
           duration: 1,
@@ -27,9 +43,41 @@ window.addEventListener("load", () => {
           ease: "power2.out",
         });
       },
+      onLeaveBack: () => {
+        gsap.to("#disappear p", {
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+        });
+      },
     },
   });
 });
+
+const possSection = document.querySelector("#appear");
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#appear",
+    start: "top center",
+    scroller: "main",
+    toggleActions: "play none none reverse",
+    markers: false,
+  
+  },
+});
+
+tl.from("#appear", {
+  opacity: 1,
+  y: 250,
+  duration: 2,
+  ease: "power2.out",
+})
+.from("#pikachu", {
+  opacity: 0,
+  x: 500,
+  duration: 3,
+  ease: "power2.out",
+}, "-=2"); // Overlap the animations
 
 // document.addEventListener("DOMContentLoaded", () => {
 //     const revealSections = document.querySelectorAll(".reveal-section");
