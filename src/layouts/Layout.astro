@@ -1,6 +1,8 @@
 ---
+
 ---
-<!doctype html>
+
+<script src="../components/scripts/gsap/particles.js"></script>
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
@@ -9,11 +11,15 @@
     <meta name="generator" content={Astro.generator} />
     <title>Marcus's Home Page</title>
   </head>
-
-  <body class="w-full h-full min-h-screen bg-cover bg-fixed bg-center bg-[url('../assets/parabolic-rectangle.svg')]">
+  <body
+    class="w-full h-full min-h-screen bg-cover bg-fixed bg-center bg-[url('../assets/parabolic-rectangle.svg')]"
+  >
+  <canvas
+  class="absolute top-0 left-0 w-full h-full pointer-events-none -z-1 opacity-35"
+  ></canvas>
     <slot />
   </body>
+  <!-- #f5c5ac -->
+  <!-- #ffefe4 -->
+  <!-- #F8FDFE -->
 </html>
-<!-- #f5c5ac -->
-<!-- #ffefe4 -->
-<!-- #F8FDFE -->

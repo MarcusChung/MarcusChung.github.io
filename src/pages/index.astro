@@ -6,7 +6,6 @@ import "../styles/global.css";
 import { Image } from "astro:assets";
 import pikachu from "../images/pikachu.jpg";
 import upArrow from "../images/upArrow.png";
-
 ---
 
 <script src="../components/scripts/gsap/reveal.js"></script>
@@ -23,68 +22,77 @@ import upArrow from "../images/upArrow.png";
 				behavior: "smooth",
 			});
 		});
+
+		// hide the header when page loads
+		document.querySelector("#mainHeader")?.classList.toggle("hidden");
+		document.querySelector("#secondHeader")?.classList.toggle("hidden");
+		document.querySelector("#showBtn")?.classList.toggle("hidden");
 	});
 </script>
-<script src="../components/scripts/gsap/particles.js"></script>
 <Header />
-<Layout id="layout">
-	<body class="overflow-x-hidden">
-		<main
-			id="mainElement"
-			class="h-screen snap-y snap-mandatory overflow-y-scroll px-4 sm:px-8 md:px-16 xl:px-32 text-5xl sm:text-4xl md:text-6xl lg:text-7xl"
-		>
-			<a id="top"></a>
-			<section
-				id="welcome"
-				class="min-h-screen flex items-center justify-center snap-center"
+	<Layout>
+		<body class="overflow-x-hidden">
+			<main
+				id="mainElement"
+				class="h-screen snap-y snap-mandatory overflow-y-scroll px-4 sm:px-8 md:px-16 xl:px-32 text-5xl sm:text-4xl md:text-6xl lg:text-7xl"
 			>
-				<p>Welcome to my Github Page.</p>
-			</section>
-			<section
-				id="poss"
-				class="min-h-screen flex flex-col items-center justify-center snap-center"
-			>
-				<p>The possibilities with web development are endless.</p>
-			</section>
-			<section
-				class="min-h-screen flex items-center justify-center snap-center"
-			>
-				<p>In this page, I am the artist.</p>
-			</section>
-			<section
-				class="min-h-screen flex flex-col items-center justify-center snap-center"
-			>
-				<p id="appear">I can make things appear.</p>
-				<Image id="pikachu" src={pikachu} alt="pikachu" height="500"/>
-			</section>
-			<section
-				id="disappear"
-				class="min-h-screen flex items-center justify-center snap-center"
-			>
-				<p>Or disappear.</p>
-			</section>
-			<section
-				class="min-h-screen flex items-center justify-center snap-center"
-			>
-				<p>The only <a class="font-bold">limit</a></p>
-			</section>
-			<section
-				class="min-h-screen flex flex-col items-center justify-center snap-center"
-			>
-				<p>is my <a class="font-bold">creativity.</a></p>
-				<Image
-					src={upArrow}
-					alt="up arrow"
-					id="scrollButton"
-					width="60"
-					height="60"
-					class="mt-20 opacity-60 hover:opacity-80"
-				/>
-			</section>
-			<div class="spacer py-10"></div>
-		</main>
-	</body>
-</Layout>
+				<a id="top"></a>
+				<section
+					id="welcome"
+					class="min-h-screen flex items-center justify-center snap-center"
+				>
+					<p>Welcome to my Github Page.</p>
+				</section>
+				<section
+					id="poss"
+					class="min-h-screen flex flex-col items-center justify-center snap-center"
+				>
+					<p>The possibilities with web development are endless.</p>
+				</section>
+				<section
+					class="min-h-screen flex items-center justify-center snap-center"
+				>
+					<p>In this page, I am the artist.</p>
+				</section>
+				<section
+					class="min-h-screen flex flex-col items-center justify-center snap-center"
+				>
+					<p id="appear">I can make things appear.</p>
+					<Image
+						id="pikachu"
+						src={pikachu}
+						alt="pikachu"
+						height="500"
+					/>
+				</section>
+				<section
+					id="disappear"
+					class="min-h-screen flex items-center justify-center snap-center"
+				>
+					<p>Or disappear.</p>
+				</section>
+				<section
+					class="min-h-screen flex items-center justify-center snap-center"
+				>
+					<p>The only <a class="font-bold">limit</a></p>
+				</section>
+				<section
+					class="min-h-screen flex flex-col items-center justify-center snap-center"
+				>
+					<p>is my <a class="font-bold">creativity.</a></p>
+					<Image
+						src={upArrow}
+						alt="up arrow"
+						id="scrollButton"
+						width="60"
+						height="60"
+						class="mt-20 opacity-60 hover:opacity-80"
+					/>
+				</section>
+				<div class="spacer py-10"></div>
+			</main>
+		</body>
+	</Layout>
 
 <script>
 	import { gsap } from "gsap";
@@ -92,17 +100,17 @@ import upArrow from "../images/upArrow.png";
 	import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 	gsap.registerPlugin(ScrollTrigger);
 	document.addEventListener("DOMContentLoaded", () => {
-    const scrollButton = document.getElementById("scrollButton");
-    
-    // Ensure that ScrollToPlugin is registered with GSAP
-    gsap.registerPlugin(ScrollToPlugin);
-    
-    scrollButton?.addEventListener("click", () => {
-      gsap.to("main", {
-        duration: 1.5,  // Duration of scroll
-        scrollTo: { y: 0, autoKill: true },  // Scroll to the top of the page
-        ease: "power2.out"  // Easing function
-      });
-    });
-  });
+		const scrollButton = document.getElementById("scrollButton");
+
+		// Ensure that ScrollToPlugin is registered with GSAP
+		gsap.registerPlugin(ScrollToPlugin);
+
+		scrollButton?.addEventListener("click", () => {
+			gsap.to("main", {
+				duration: 1.5, // Duration of scroll
+				scrollTo: { y: 0, autoKill: true }, // Scroll to the top of the page
+				ease: "power2.out", // Easing function
+			});
+		});
+	});
 </script>

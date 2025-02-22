@@ -1,11 +1,15 @@
+//credits to gsap for the javascript code
+//https://codepen.io/GreenSock/pen/NWZRRNb
+
 import gsap from "gsap";
 
-const c = document.querySelector("#layout");
+document.addEventListener("DOMContentLoaded", () => {
+const c = document.querySelector("canvas");
 const ctx = c.getContext("2d");
 let cw = (c.width = window.innerWidth);
 let ch = (c.height = window.innerHeight);
 let radius = Math.max(cw,ch);
-const particles = Array(99);
+const particles = Array(80);
 
 for (let i = 0; i < particles.length; i++) {
   particles[i] = {
@@ -31,13 +35,13 @@ const tl = gsap.timeline({onUpdate:draw})
     scale: 1.1,
     rotate: 0
   },{
-    duration: 5,
+    duration: 4,
     ease: "sine",
     x: 0,
     y: 0,
     scale: 0,
     rotate: -3,
-    stagger:{each:-0.05, repeat:-1}
+    stagger:{each:-0.1, repeat:-1}
   }, 0)
   .seek(99)
 
@@ -70,3 +74,5 @@ c.addEventListener('pointerup', ()=>{
     timeScale: tl.isActive() ? 0 : 1 // use timeScale to toggle play / pause
   })
 })
+
+});
