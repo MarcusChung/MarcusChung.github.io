@@ -1,7 +1,7 @@
 // gsap to animate the reveal sections
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
+
 
 window.addEventListener("load", () => {
   gsap.from("#welcome", {
@@ -60,7 +60,7 @@ const tl = gsap.timeline({
     trigger: "#appear",
     scroller: "main",
     toggleActions: "play none none reverse",
-    markers: true,
+    markers: false,
   
   },
 });

@@ -9,7 +9,7 @@ gsap.from("#demo2", {
     trigger: "#demo2",
     toggleActions: "restart pause reverse pause"
   },
-  x: 400,
+  x: 100,
   rotation: 360,
   duration: 3,
 });
@@ -21,11 +21,12 @@ gsap.from("#mainText", {
     markers: true,
     start: "top 80%",
     end: "bottom 10%",
-    scrub: 1,
-    pin: true,
+    scrub: 2,
+    pin: false,
   },
-  x: 200,
-  rotation: 360,
+  y: 100,
+  x: 0,
+  rotation: 520,
   duration: 4,
 });
 

@@ -36,23 +36,15 @@ import Welcome from "../components/Welcome.astro";
 	<div
 class="container max-w-7xl mx-auto p-10 bg-[#ffffff] dark:bg-[#0e101a]"
 	>
-		<section
-			class="flex items-center justify-center max-w-none mx-auto my-4"
-		>
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image id="logo" src={logo} alt="temp logo" class="w-32 h-auto" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-			<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
-		</section>
-		<section class="max-w-none mx-auto my-8">
+		<section class="max-w-7xl mx-auto my-8">
 			<h1 id="playground"> My Playground </h1>
+
 			<button type="button" onclick="alert(Date())">
 				Click me to display Date and Time
 			</button>
 
 			<p id="demo" class="mt-4">
-				this text gis going to change if u click that button
+				this text is going to change if u click that button
 			</p>
 			<button
 				type="button"
@@ -76,17 +68,52 @@ class="container max-w-7xl mx-auto p-10 bg-[#ffffff] dark:bg-[#0e101a]"
 			</button>
 		</section>
 		<section>
-			<div class="container text-center items-center">
-				<h2 id="mainText"> Here lies some text that will be used for the main content! Probably!!</h2>
+			<div class="text-center">
+				<h3 id="mainText"> Here lies some text! Nothing to see here!</h3>
 			</div>
 		</section>
 		<section class="mt-50">
-			<p id="demo2">wordy word</p>
+			<p id="demo2">Currently, this page serves as a playground and testing ground for my website ideas, styles, and designs.
+				It might not look pretty because it's a place where I experiment with implementing my ideas. You may find some of these designs on my other pages.</p>
 			<button
 				class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
 				onclick="document.getElementById('demo2').innerHTML ='!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'"
 				>clicky here</button
 			>
 		</section>
+
+		<section
+		class="flex flex-col items-center justify-center max-w-none mx-auto my-4"
+	>
+		<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
+		<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
+		<Image id="logo" src={logo} alt="temp logo" class="w-32 h-auto" />
+		<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
+		<Image src={circle} alt="blue circle" class="circle w-24 h-24" />
+	</section>
 	</div>
+
+	<div class="min-h-screen w-full bg-teal-400 font-sans flex place-items-center place-content-center">
+		<div class="flex items-center justify-center w-full">
+		  <div class="relative bg-white w-full max-w-xl rounded-lg">
+			<div class="rounded-lg overflow-hidden">
+			<p class="px-4 py-2 uppercase text-sm font-semibold text-gray-600">Select the user</p>
+			<div class="p-2 bg-gray-400 rounded-t-lg">
+			  <input class="block w-full rounded-lg border px-4 py-2" />
+			  <div class="mt-3 -mx-2 w-full z-10 absolute border rounded-lg shadow bg-white">
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 1</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 2</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 3</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 4</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 5</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 6</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 7</p>
+				<p class="py-2 px-4 hover:bg-gray-200 cursor-pointer">User 8</p>
+			  </div>
+			</div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
 </Layout>

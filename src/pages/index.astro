@@ -28,6 +28,7 @@ import upArrow from "../images/upArrow.png";
 		document.querySelector("#showBtn")?.classList.toggle("hidden");
 	});
 </script>
+
 <Header />
 	<Layout>
 		<body class="overflow-x-hidden">
@@ -62,6 +63,7 @@ import upArrow from "../images/upArrow.png";
 						src={pikachu}
 						alt="pikachu"
 						height="500"
+						class="border-8 border-gray rounded-lg"
 					/>
 				</section>
 				<section
@@ -78,7 +80,7 @@ import upArrow from "../images/upArrow.png";
 				<section
 					class="min-h-screen flex flex-col items-center justify-center snap-center"
 				>
-					<p>is my <a class="font-bold">creativity.</a></p>
+					<p>is my <a class="font-bold" id="txtCreativity"> creativity </a></p>
 					<Image
 						src={upArrow}
 						alt="up arrow"
