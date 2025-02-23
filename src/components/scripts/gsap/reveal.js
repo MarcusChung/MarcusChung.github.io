@@ -34,7 +34,7 @@ window.addEventListener("load", () => {
       scroller: "main",
       start: "top center",
       markers: false,
-      toggleActions: "play reverse play reverse",
+      toggleActions: "play none none none",
       onEnter: () => {  // Remove snap
         gsap.to("#disappear p", {
           opacity: 0,
@@ -58,10 +58,9 @@ const possSection = document.querySelector("#appear");
 const tl = gsap.timeline({
   scrollTrigger: {
     trigger: "#appear",
-    start: "top center",
     scroller: "main",
     toggleActions: "play none none reverse",
-    markers: false,
+    markers: true,
   
   },
 });
