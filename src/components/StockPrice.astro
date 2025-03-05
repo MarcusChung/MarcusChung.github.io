@@ -1,0 +1,68 @@
+---
+---
+<section>
+<div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
+    <h2 id="stock">Stock search</h2>
+    <p> Financial Modeling Prep's API</p>
+    <input type="text" id="stock-api-key" placeholder="Enter API key (temporary))" />
+    <input type="text" id="stock-symbol" placeholder="Enter stock symbol" class="mx-5"/>
+    <button id="stock-submit" class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]">Submit</button>
+<div id="stock-container">
+    <p>Loading stock data...</p>
+</div>
+</section>
+
+<script>
+    // var apiKey = import.meta.env.STOCKS_API_KEY //API key 
+    var apiKey = ""
+    console.log("API Key:", apiKey); //remove after testing
+    var symbol = 'RR.L'; // Rolls-Royce on the London Stock Exchange
+    document.addEventListener("DOMContentLoaded", () => {
+    async function getStockData() {
+        //https://financialmodelingprep.com/stable/grades?symbol=AAPL&apikey=YOUR_API_KEY
+        const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
+        const stockContainer = document.querySelector('#stock-container');
+
+        if (!stockContainer) return;
+        try {
+            console.log("Fetching from:", url);
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log("API Response:", data);
+            const stock = data[0];
+            if (!stock) {
+                stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                return;
+            }
+
+            stockContainer.innerHTML = `
+                <div>
+                    <h2>${stock.symbol} </h2>
+                    <p> ${stock.companyName} </p>
+                    <p> ${stock.exchangeFullName} </p>
+                    <p> ${stock.exchange} </p>
+                    <p> ${stock.sector} </p>
+                    <p> Actively trading: ${stock.isActivelyTrading} </p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching stock data:', error);
+            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+        }
+    }
+
+    const stockSubmit = document.querySelector('#stock-submit');
+    if (!stockSubmit) return;
+    stockSubmit.addEventListener('click', () => {
+        const stockSymbol = document.querySelector('#stock-symbol') as HTMLInputElement;
+        if (!stockSymbol) return;
+        symbol = stockSymbol.value;
+        
+        const stockApiKey = document.querySelector('#stock-api-key') as HTMLInputElement;
+        if (!stockApiKey) return;
+        apiKey = stockApiKey.value;
+        getStockData();
+    });
+
+});
+</script>

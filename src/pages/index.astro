@@ -10,6 +10,9 @@ import upArrow from "../images/upArrow.png";
 
 <script src="../components/scripts/gsap/reveal.js"></script>
 <script>
+	/* I have stopped using this and switched to GSAP for the same/ better effect.
+	// The showOrHideHeader.js file contains a check for when this file is loaded and then runs the hideHeader function!
+	//this code is kept because im testing if the gsap method causes performance issues.
 	document.addEventListener("DOMContentLoaded", () => {
 		window.addEventListener("load", function () {
 			// Get the height of the header section
@@ -26,7 +29,7 @@ import upArrow from "../images/upArrow.png";
 		document.querySelector("#mainHeader")?.classList.toggle("hidden");
 		document.querySelector("#secondHeader")?.classList.toggle("hidden");
 		document.querySelector("#showBtn")?.classList.toggle("hidden");
-	});
+	 }); */
 </script>
 
 <Header />

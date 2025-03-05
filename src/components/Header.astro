@@ -34,7 +34,7 @@ import ThemeIcon from "../components/ThemeIcon.astro";
                 </a>
                 <a
                     href="/playground/"
-                    class="px-4 hover:bg-gray-100 rounded-full transition-all duration-300"
+                    class="px-4 hover:bg-gray-300 rounded-full transition-all duration-300"
                 >
                     Playground
                 </a>
@@ -44,8 +44,7 @@ import ThemeIcon from "../components/ThemeIcon.astro";
                 <button
                     type="button"
                     id="hideBtn"
-                    class="font-bold text-center items-center align-bottom mt-2 hover:bg-gray-300 rounded-full transition-all duration-300 dark:text-white"
-                    onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden"); document.getElementById("secondHeader").classList.toggle("hidden");'
+                    class="font-bold text-center items-center align-bottom mt-2 hover:bg-gray-300 dark:hover:text-gray-500 rounded-full transition-all duration-300 dark:text-white"
                 >
                     Hide
                 </button>
@@ -70,7 +69,6 @@ import ThemeIcon from "../components/ThemeIcon.astro";
     type="button"
     id="showBtn"
     class="font-bold text-black dark:text-white hover:bg-gray-300 top-5 right-0 mr-6 absolute rounded-full transition-all duration-300 hidden z-10"
-    onclick='document.getElementById("mainHeader").classList.toggle("hidden"); document.getElementById("showBtn").classList.toggle("hidden"); document.getElementById("secondHeader").classList.toggle("hidden");'
 >
     Show
 </button>
