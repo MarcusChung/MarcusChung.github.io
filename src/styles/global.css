@@ -123,6 +123,11 @@ html.dark {
   code {
     color: #7261B8;
   }
+
+  input[type=text] {
+    background-color: #1E1E1E;
+    color: #F7F7F8;
+  }
 }
 
 .dark .nav-links a {

@@ -10,6 +10,25 @@
 <div id="stock-container">
     <p>Loading stock data...</p>
 </div>
+
+    <h2> Todays Top Movers</h2>
+
+    <div id="gainers-container">
+    <h3> Top Gainers.. </h3>
+    <p> Gainers data</p>
+    </div>
+
+    <div id="losers-container">
+    <h3> Top Losers </h3>
+    <p> Losers data..</p>
+    </div>
+
+    <div id="actives-container">
+    <h3> Most Active </h3>
+    <p> Active data..</p>
+    </div>
+
+</div>
 </section>
 
 <script>
@@ -51,6 +70,102 @@
         }
     }
 
+    async function getGainersData() {
+        const url = `https://financialmodelingprep.com/stable/biggest-gainers?apikey=${apiKey}`;
+        const stockContainer = document.querySelector('#gainers-container');
+
+        if (!stockContainer) return;
+        try {
+            console.log("Fetching from:", url);
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log("API Response:", data);
+            const stock = data[0];
+            if (!stock) {
+                stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                return;
+            }
+
+            stockContainer.innerHTML = `
+                <div>
+                    <h2>${stock.symbol} </h2>
+                    <p> ${stock.price} </p>
+                    <p> ${stock.name} </p>
+                    <p> ${stock.exchange} </p>
+                    <p> ${stock.change} </p>
+                    <p> Change (%): ${stock.changesPercentage} </p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching stock data:', error);
+            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+        }
+    }
+
+    async function getLosersData() {
+        const url = `https://financialmodelingprep.com/stable/biggest-losers?apikey=${apiKey}`;
+        const stockContainer = document.querySelector('#losers-container');
+
+        if (!stockContainer) return;
+        try {
+            console.log("Fetching from:", url);
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log("API Response:", data);
+            const stock = data[0];
+            if (!stock) {
+                stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                return;
+            }
+
+            stockContainer.innerHTML = `
+                <div>
+                    <h2>${stock.symbol} </h2>
+                    <p> ${stock.price} </p>
+                    <p> ${stock.name} </p>
+                    <p> ${stock.change} </p>
+                    <p> ${stock.changesPercentage} </p>
+                    <p> ${stock.exchange} </p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching stock data:', error);
+            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+        }
+    }
+
+    async function getActiveData() {
+        const url = `https://financialmodelingprep.com/stable/most-actives?apikey=${apiKey}`;
+        const stockContainer = document.querySelector('#actives-container');
+
+        if (!stockContainer) return;
+        try {
+            console.log("Fetching from:", url);
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log("API Response:", data);
+            const stock = data[0];
+            if (!stock) {
+                stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                return;
+            }
+
+            stockContainer.innerHTML = `
+                <div>
+                    <h2>${stock.symbol} </h2>
+                    <p> ${stock.price} </p>
+                    <p> ${stock.name} </p>
+                    <p> ${stock.change} </p>
+                    <p> ${stock.changesPercentage} </p>
+                    <p> Actively trading: ${stock.exchange} </p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching stock data:', error);
+            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+        }
+    }
+
     const stockSubmit = document.querySelector('#stock-submit');
     if (!stockSubmit) return;
     stockSubmit.addEventListener('click', () => {
@@ -62,6 +177,9 @@
         if (!stockApiKey) return;
         apiKey = stockApiKey.value;
         getStockData();
+        getGainersData();
+        getLosersData();
+        getActiveData();
     });
 
 });
