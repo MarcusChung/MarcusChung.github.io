@@ -32,8 +32,10 @@
 </section>
 
 <script>
+
     // var apiKey = import.meta.env.STOCKS_API_KEY //API key 
-    var apiKey = ""
+    var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
+
     console.log("API Key:", apiKey); //remove after testing
     var symbol = 'RR.L'; // Rolls-Royce on the London Stock Exchange
     document.addEventListener("DOMContentLoaded", () => {
@@ -181,6 +183,7 @@
         getLosersData();
         getActiveData();
     });
+    getStockData();
 
 });
 </script>

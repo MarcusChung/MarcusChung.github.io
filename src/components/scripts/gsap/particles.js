@@ -32,7 +32,7 @@ const tl = gsap.timeline({onUpdate:draw})
       const angle = (i/particles.length * Math.PI *2)- Math.PI/2
       return Math.sin(angle*10) * radius// * i/particles.length
     },
-    scale: 1.1,
+    scale: 0.4,
     rotate: 0
   },{
     duration: 4,

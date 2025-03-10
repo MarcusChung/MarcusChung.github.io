@@ -1,12 +1,15 @@
 ---
 import Header from "../components/Header.astro";
 import StockPrice from "../components/StockPrice.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/ParticlesLayout.astro";
 import "../styles/global.css";
 
 ---
 
 <Header />
 <Layout>
+    <div class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
+    <h1>Stock Screener</h1>
     <StockPrice />
+    </div>
 </Layout>
