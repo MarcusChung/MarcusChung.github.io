@@ -1,126 +1,182 @@
 ---
+
 ---
+
 <section>
-<div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
-    <h2 id="stock">Stock search</h2>
-    <p> Financial Modeling Prep's API</p>
-    <input type="text" id="stock-api-key" placeholder="Enter API key (temporary))" />
-    <input type="text" id="stock-symbol" placeholder="Enter stock symbol" class="mx-5"/>
-    <button id="stock-submit" class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]">Submit</button>
-<div id="stock-container">
-    <p>Loading stock data...</p>
-</div>
+    <div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
+        <h2 id="stock">Stock search</h2>
+        <p>Financial Modeling Prep's API</p>
+        <input
+            type="text"
+            id="stock-api-key"
+            placeholder="Enter API key (temporary))"
+        />
+        <input
+            type="text"
+            id="stock-symbol"
+            placeholder="Enter stock symbol"
+            class="mx-5"
+        />
+        <button
+            id="stock-submit"
+            class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
+            >Submit</button
+        >
+        <div id="stock-container">
+            <p>Loading stock data...</p>
+        </div>
 
-    <h2> Todays Top Movers</h2>
+        <h2>Todays Top Movers</h2>
 
-    <div id="gainers-container">
-    <h3> Top Gainers.. </h3>
-    <p> Gainers data</p>
+        <h3>Top Gainers..</h3>
+        <div id="gainers-container">
+            <p>Gainers data</p>
+        </div>
+
+        <h3>Top Losers</h3>
+        <div id="losers-container">
+            <p>Losers data..</p>
+        </div>
+
+        <h3>Most Active</h3>
+        <div id="actives-container">
+            <p>Active data..</p>
+        </div>
     </div>
-
-    <div id="losers-container">
-    <h3> Top Losers </h3>
-    <p> Losers data..</p>
-    </div>
-
-    <div id="actives-container">
-    <h3> Most Active </h3>
-    <p> Active data..</p>
-    </div>
-
-</div>
 </section>
 
 <script>
-
-    // var apiKey = import.meta.env.STOCKS_API_KEY //API key 
     var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
-
-    console.log("API Key:", apiKey); //remove after testing
-    var symbol = 'RR.L'; // Rolls-Royce on the London Stock Exchange
+    var symbol = "RR.L"; // Rolls-Royce on the London Stock Exchange
     document.addEventListener("DOMContentLoaded", () => {
-    async function getStockData() {
-        //https://financialmodelingprep.com/stable/grades?symbol=AAPL&apikey=YOUR_API_KEY
-        const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
-        const stockContainer = document.querySelector('#stock-container');
+        async function getStockData() {
+            //get a specific stock data
+            //https://financialmodelingprep.com/stable/grades?symbol=AAPL&apikey=YOUR_API_KEY
+            const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
+            const stockContainer = document.querySelector("#stock-container");
 
-        if (!stockContainer) return;
-        try {
-            console.log("Fetching from:", url);
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log("API Response:", data);
-            const stock = data[0];
-            if (!stock) {
-                stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                return;
-            }
+            if (!stockContainer) return;
+            try {
+                const response = await fetch(url); //try to fetch the data
+                const data = await response.json(); //check for response
+                // console.log("API Response:", data);
+                const stock = data[0];
+                if (!stock) {
+                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                    return;
+                }
 
-            stockContainer.innerHTML = `
+                stockContainer.innerHTML = `
                 <div>
                     <h2>${stock.symbol} </h2>
-                    <p> ${stock.companyName} </p>
-                    <p> ${stock.exchangeFullName} </p>
-                    <p> ${stock.exchange} </p>
-                    <p> ${stock.sector} </p>
-                    <p> Actively trading: ${stock.isActivelyTrading} </p>
+                    <ul> <li> ${stock.price} </li> 
+                    <li> ${stock.companyName} </li>
+                    <li> ${stock.exchangeFullName} </li>
+                    <li> ${stock.exchange} </li>
+                    <li> ${stock.sector} </li>
+                    </ul>
                 </div>
             `;
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-        }
-    }
-
-    async function getGainersData() {
-        const url = `https://financialmodelingprep.com/stable/biggest-gainers?apikey=${apiKey}`;
-        const stockContainer = document.querySelector('#gainers-container');
-
-        if (!stockContainer) return;
-        try {
-            console.log("Fetching from:", url);
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log("API Response:", data);
-            const stock = data[0];
-            if (!stock) {
-                stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                return;
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
             }
-
-            stockContainer.innerHTML = `
-                <div>
-                    <h2>${stock.symbol} </h2>
-                    <p> ${stock.price} </p>
-                    <p> ${stock.name} </p>
-                    <p> ${stock.exchange} </p>
-                    <p> ${stock.change} </p>
-                    <p> Change (%): ${stock.changesPercentage} </p>
-                </div>
-            `;
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
         }
-    }
 
-    async function getLosersData() {
-        const url = `https://financialmodelingprep.com/stable/biggest-losers?apikey=${apiKey}`;
-        const stockContainer = document.querySelector('#losers-container');
+        async function getGainersData() {
+            const url = `https://financialmodelingprep.com/stable/biggest-gainers?apikey=${apiKey}`;
+            const stockContainer = document.querySelector("#gainers-container");
 
-        if (!stockContainer) return;
-        try {
-            console.log("Fetching from:", url);
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log("API Response:", data);
-            const stock = data[0];
-            if (!stock) {
-                stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                return;
+            if (!stockContainer) return;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                // console.log("API Response:", data);
+                const stock = data[0];
+                if (!stock) {
+                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                    return;
+                }
+                stockContainer.innerHTML = "";
+                data.forEach(
+                    (stock: {
+                        symbol: any;
+                        price: any;
+                        name: any;
+                        exchange: any;
+                        change: any;
+                        changesPercentage: any;
+                    }) => {
+                        const changeColor =
+                            parseFloat(stock.change) >= 0
+                                ? "text-green-500"
+                                : "text-red-500";
+
+                        // Create a container div
+                        const stockDiv = document.createElement("div");
+                        stockDiv.classList.add(
+                            "flex",
+                            "flex-col",
+                            "bg-gray-900",
+                            "text-white",
+                            "p-4",
+                            "rounded-md",
+                            "mb-2",
+                            "max-w-sm", // optional: limit width
+                        );
+
+                        // Fill in the HTML
+                        stockDiv.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                        <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
+                        ${stock.symbol}
+                        </a>
+                        <span class="text-xl font-bold">
+                        ${stock.price}
+                        </span>
+                        </div>
+                        <div class="text-sm text-gray-400 truncate w-full">
+                        ${stock.name}
+                        </div>
+                        <div class="${changeColor} text-sm">
+                        ${stock.change} (${stock.changesPercentage}%)
+                        </div>
+                        `;
+                        stockContainer.appendChild(stockDiv);
+                    },
+                );
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
             }
+        }
 
-            stockContainer.innerHTML = `
+        async function getLosersData() {
+            const url = `https://financialmodelingprep.com/stable/biggest-losers?apikey=${apiKey}`;
+            const stockContainer = document.querySelector("#losers-container");
+
+            if (!stockContainer) return;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                // console.log("API Response:", data);
+                const stock = data[0];
+                if (!stock) {
+                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                    return;
+                }
+                stockContainer.innerHTML = "";
+                data.forEach(
+                    (stock: {
+                        symbol: any;
+                        price: any;
+                        name: any;
+                        exchange: any;
+                        change: any;
+                        changesPercentage: any;
+                    }) => {
+                        const stockElement = document.createElement("div");
+                        stockElement.innerHTML = `
                 <div>
                     <h2>${stock.symbol} </h2>
                     <p> ${stock.price} </p>
@@ -130,29 +186,42 @@
                     <p> ${stock.exchange} </p>
                 </div>
             `;
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-        }
-    }
-
-    async function getActiveData() {
-        const url = `https://financialmodelingprep.com/stable/most-actives?apikey=${apiKey}`;
-        const stockContainer = document.querySelector('#actives-container');
-
-        if (!stockContainer) return;
-        try {
-            console.log("Fetching from:", url);
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log("API Response:", data);
-            const stock = data[0];
-            if (!stock) {
-                stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                return;
+                        stockContainer.appendChild(stockElement);
+                    },
+                );
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
             }
+        }
 
-            stockContainer.innerHTML = `
+        async function getActiveData() {
+            const url = `https://financialmodelingprep.com/stable/most-actives?apikey=${apiKey}`;
+            const stockContainer = document.querySelector("#actives-container");
+
+            if (!stockContainer) return;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                // console.log("API Response:", data);
+                const stock = data[0];
+                if (!stock) {
+                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
+                    return;
+                }
+
+                stockContainer.innerHTML = "";
+                data.forEach(
+                    (stock: {
+                        symbol: any;
+                        price: any;
+                        name: any;
+                        exchange: any;
+                        change: any;
+                        changesPercentage: any;
+                    }) => {
+                        const stockElement = document.createElement("div");
+                        stockElement.innerHTML = `
                 <div>
                     <h2>${stock.symbol} </h2>
                     <p> ${stock.price} </p>
@@ -160,30 +229,35 @@
                     <p> ${stock.change} </p>
                     <p> ${stock.changesPercentage} </p>
                     <p> Actively trading: ${stock.exchange} </p>
-                </div>
-            `;
-        } catch (error) {
-            console.error('Error fetching stock data:', error);
-            stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+                </div>`;
+                        stockContainer.appendChild(stockElement);
+                    },
+                );
+            } catch (error) {
+                console.error("Error fetching stock data:", error);
+                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
+            }
         }
-    }
 
-    const stockSubmit = document.querySelector('#stock-submit');
-    if (!stockSubmit) return;
-    stockSubmit.addEventListener('click', () => {
-        const stockSymbol = document.querySelector('#stock-symbol') as HTMLInputElement;
-        if (!stockSymbol) return;
-        symbol = stockSymbol.value;
-        
-        const stockApiKey = document.querySelector('#stock-api-key') as HTMLInputElement;
-        if (!stockApiKey) return;
-        apiKey = stockApiKey.value;
+        const stockSubmit = document.querySelector("#stock-submit");
+        if (!stockSubmit) return;
+        stockSubmit.addEventListener("click", () => {
+            const stockSymbol = document.querySelector(
+                "#stock-symbol",
+            ) as HTMLInputElement;
+            if (!stockSymbol) return;
+            symbol = stockSymbol.value;
+
+            const stockApiKey = document.querySelector(
+                "#stock-api-key",
+            ) as HTMLInputElement;
+            if (!stockApiKey) return;
+            apiKey = stockApiKey.value;
+            getStockData();
+            getGainersData();
+            getLosersData();
+            getActiveData();
+        });
         getStockData();
-        getGainersData();
-        getLosersData();
-        getActiveData();
     });
-    getStockData();
-
-});
 </script>
