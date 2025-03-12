@@ -1,56 +1,4 @@
----
-import "../styles/global.css";
----
 
-<div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
-    <section>
-        <h2 id="stock">Stock search</h2>
-        <p>Financial Modeling Prep's API</p>
-        <!-- <input
-            type="text"
-            id="stock-api-key"
-            placeholder="Enter API key (temporary))"
-        /> -->
-        <input
-            type="text"
-            id="stock-symbol"
-            placeholder="Enter stock symbol"
-            class="mr-5"
-        />
-        <button
-            id="stock-submit"
-            class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
-            >Submit</button
-        >
-        <div id="stock-container">
-        </div>
-    </section>
-    <section>
-        <h2 class="text-center">Todays Top Movers</h2>
-        <div class="md:flex justify-around md:items-center md:w-full">
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Top Gainers..</h3>
-                <div id="gainers-container" class="items-center max-w-30%">
-                    <p>Gainers data</p>
-                </div>
-            </div>
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Top Losers</h3>
-                <div id="losers-container" class="items-center max-w-30%">
-                    <p>Losers data..</p>
-                </div>
-            </div>
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Most Active</h3>
-                <div id="actives-container" class="items-center max-w-30%">
-                    <p>Active data..</p>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<script>
     var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
     var symbol = "RR.L"; // Rolls-Royce on the London Stock Exchange
     // const cacheKey = "stockData";
@@ -313,4 +261,3 @@ import "../styles/global.css";
         getLosersData();
         getActiveData();
     });
-</script>

@@ -7,8 +7,230 @@ import "../styles/global.css";
 
 <Header />
 <Layout>
-    <div class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a] py-10 px-10">
-    <h1>Stock Screener</h1>
-    <StockPrice />
+    <div
+        class="container max-w-7xl mx-auto bg-[#ffffff] dark:bg-[#0e101a] py-10 px-10"
+    >
+        <h1>Stock Screener</h1>
+        <div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
+            <section>
+                <h2 id="stock">Stock search</h2>
+                <p>Financial Modeling Prep's API</p>
+                <!-- <input
+                type="text"
+                id="stock-api-key"
+                placeholder="Enter API key (temporary))"
+            /> -->
+                <input
+                    type="text"
+                    id="stock-symbol"
+                    placeholder="Enter stock symbol"
+                    class="mr-5"
+                />
+                <button
+                    id="stock-submit"
+                    class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
+                    >Submit</button
+                >
+                <div id="stock-container"></div>
+            </section>
+            <section>
+                <h2 class="text-center">Todays Top Movers</h2>
+                <div class="md:flex justify-around md:items-center md:w-full">
+                    <div class="flex flex-col space-x-2">
+                        <h3 class="text-center">Top Gainers..</h3>
+                        <div
+                            id="gainers-container"
+                            class="items-center max-w-30%"
+                        >
+                            <p>Gainers data</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-x-2">
+                        <h3 class="text-center">Top Losers</h3>
+                        <div
+                            id="losers-container"
+                            class="items-center max-w-30%"
+                        >
+                            <p>Losers data..</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-x-2">
+                        <h3 class="text-center">Most Active</h3>
+                        <div
+                            id="actives-container"
+                            class="items-center max-w-30%"
+                        >
+                            <p>Active data..</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 </Layout>
+
+<!-- Add safelist comments for dynamic classes -->
+<!-- 
+  Tailwind Safelist:
+  text-green-500
+  text-red-500
+  bg-gray-100
+  dark:bg-gray-800
+-->
+
+<script>
+
+    var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
+    var symbol = "RR.L"; // Rolls-Royce on the London Stock Exchange
+    const expirationKey = "stockDataExpiration";
+    const oneDay = 24 * 60 * 60 * 1000; // 24hrs in milliseconds
+
+    const cachedExpiration = localStorage.getItem(expirationKey);
+    console.log("cachedExpiration initial", cachedExpiration);
+
+    async function getStockData() {
+      const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
+      const stockContainer = document.querySelector("#stock-container");
+
+      if (!stockContainer) return;
+      try {
+        stockContainer.innerHTML = `<p class="text-center">Loading stock data...</p>`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        const stock = data[0];
+        if (!stock) {
+          stockContainer.innerHTML = `<p class="text-center">No stock data available!</p>`;
+          return;
+        }
+        stockContainer.innerHTML = `
+          <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+            <h2 class="text-xl font-bold mb-2">${stock.symbol}</h2>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="font-semibold">Price:</div><div>${stock.price}</div>
+              <div class="font-semibold">Company:</div><div>${stock.companyName}</div>
+              <div class="font-semibold">Exchange:</div><div>${stock.exchangeFullName}</div>
+              <div class="font-semibold">Symbol:</div><div>${stock.exchange}</div>
+              <div class="font-semibold">Sector:</div><div>${stock.sector}</div>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+        stockContainer.innerHTML = `<p class="text-center text-red-500">Error loading stock data.</p>`;
+      }
+    }
+
+    // Single function to fetch data that handles all three data types
+    async function fetchMarketData(type: string) {
+      const cacheKey = `${type}Data`;
+      const container = document.querySelector(`#${type}-container`);
+      
+      if (!container) return;
+      
+      // Set consistent caching approach
+      let data;
+      const cachedData = localStorage.getItem(cacheKey);
+      const currentExpiration = localStorage.getItem(expirationKey);
+      const now = Date.now();
+      
+      // Check for valid cached data
+      if (cachedData && currentExpiration && now < Number(currentExpiration)) {
+        console.log(`Loading ${type} data from cache...`);
+        data = JSON.parse(cachedData);
+      } else {
+        // Set new expiration time for all data types
+        const newExpiration = now + oneDay;
+        localStorage.setItem(expirationKey, newExpiration.toString());
+        
+        // Fetch fresh data
+        const endpoint = type === 'gainers' 
+          ? 'biggest-gainers' 
+          : type === 'losers' 
+            ? 'biggest-losers' 
+            : 'most-actives';
+            
+        const url = `https://financialmodelingprep.com/stable/${endpoint}?apikey=${apiKey}`;
+        
+        try {
+          const response = await fetch(url);
+          data = await response.json();
+          
+          // Store in cache
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+        } catch (error) {
+          console.error(`Error fetching ${type} data:`, error);
+          container.innerHTML = `<p class="text-center text-red-500">Error loading data.</p>`;
+          return;
+        }
+      }
+      
+      // Display data
+      displayData(data, container);
+    }
+
+    // Display function with explicit Tailwind classes
+    function displayData(data: string | any[], container: Element) {
+      container.innerHTML = ""; // Clear previous content
+      
+      if (!Array.isArray(data) || data.length === 0) {
+        container.innerHTML = `<p class="text-center">No data available</p>`;
+        return;
+      }
+      
+      const top12Items = data.slice(0, 12);
+      
+      top12Items.forEach((stock) => {
+        // Use full Tailwind class names to avoid purging
+        const changeColor = parseFloat(stock.change) >= 0 ? "text-green-500" : "text-red-500";
+
+        const stockDiv = document.createElement("div");
+        stockDiv.className = "flex flex-col bg-gray-100 text-black rounded-md mb-2 dark:bg-gray-800 dark:text-white p-2";
+        
+        stockDiv.innerHTML = `
+          <div class="flex justify-between items-center w-full">
+            <div class="flex flex-col items-start">
+              <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
+                ${stock.symbol}
+              </a>
+              <span class="text-sm text-gray-400 truncate max-w-full">
+                ${stock.name}
+              </span>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold">
+                ${stock.price}
+              </div>
+              <div class="${changeColor} text-sm">
+                ${stock.change} (${stock.changesPercentage}%)
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(stockDiv);
+      });
+    }
+
+    // Set up event listener for the stock search
+    const stockSubmit = document.querySelector("#stock-submit");
+    if (stockSubmit) {
+      stockSubmit.addEventListener("click", () => {
+        const stockSymbol = document.querySelector("#stock-symbol") as HTMLInputElement;
+        if (stockSymbol) {
+          symbol = stockSymbol.value;
+          getStockData();
+        }
+      });
+    }
+
+    // Initialize all data fetching
+    fetchMarketData('gainers');
+    fetchMarketData('losers');
+    fetchMarketData('actives');
+  
+</script>
+
+<style>
+
+</style>
