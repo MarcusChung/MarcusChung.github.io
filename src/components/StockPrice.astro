@@ -25,22 +25,26 @@
         <div id="stock-container">
             <p>Loading stock data...</p>
         </div>
-
-        <h2>Todays Top Movers</h2>
-
-        <h3>Top Gainers..</h3>
-        <div id="gainers-container">
-            <p>Gainers data</p>
-        </div>
-
-        <h3>Top Losers</h3>
-        <div id="losers-container">
-            <p>Losers data..</p>
-        </div>
-
-        <h3>Most Active</h3>
-        <div id="actives-container">
-            <p>Active data..</p>
+        <h2 class="text-center">Todays Top Movers</h2>
+        <div class="md:flex justify-around md:items-center md:w-full">
+            <div class="flex flex-col space-x-2">
+                <h3 class="text-center">Top Gainers..</h3>
+                <div id="gainers-container" class="items-center max-w-30%">
+                    <p>Gainers data</p>
+                </div>
+            </div>
+            <div class="flex flex-col space-x-2">
+                <h3 class="text-center">Top Losers</h3>
+                <div id="losers-container" class="items-center max-w-30%">
+                    <p>Losers data..</p>
+                </div>
+            </div>
+            <div class="flex flex-col space-x-2">
+                <h3 class="text-center">Most Active</h3>
+                <div id="actives-container" class="items-center max-w-30%">
+                    <p>Active data..</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -48,7 +52,22 @@
 <script>
     var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
     var symbol = "RR.L"; // Rolls-Royce on the London Stock Exchange
+    const cacheKey = "stockData";
+    const expirationKey = "stockDataExpiration";
+    const oneDay = 24 * 60 * 60 * 1000; // 24hrs in milliseconds
+
     document.addEventListener("DOMContentLoaded", () => {
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedExpiration = localStorage.getItem(expirationKey);
+        if (
+            cachedData &&
+            cachedExpiration &&
+            Date.now() < Number(cachedExpiration)
+        ) {
+            console.log("Using cached stock data.");
+            return JSON.parse(cachedData);
+        }
+
         async function getStockData() {
             //get a specific stock data
             //https://financialmodelingprep.com/stable/grades?symbol=AAPL&apikey=YOUR_API_KEY
@@ -60,12 +79,22 @@
                 const response = await fetch(url); //try to fetch the data
                 const data = await response.json(); //check for response
                 // console.log("API Response:", data);
+
+                if (data.length > 0) { //maybe make into its own function. Used to store the data and expiration date in local storage
+                    // Store data and expiration time in localStorage
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    localStorage.setItem(
+                        expirationKey,
+                        (Date.now() + oneDay).toString(), //store the expiration time by adding 24hrs to the current time
+                    );
+                }
+
                 const stock = data[0];
                 if (!stock) {
                     stockContainer.innerHTML = `<p>No stock data available!</p>`;
                     return;
                 }
-
+                localStorage.setItem(cacheKey, JSON.stringify(stock));
                 stockContainer.innerHTML = `
                 <div>
                     <h2>${stock.symbol} </h2>
@@ -98,7 +127,8 @@
                     return;
                 }
                 stockContainer.innerHTML = "";
-                data.forEach(
+                const top12Gainers = data.slice(0, 12);
+                top12Gainers.forEach(
                     (stock: {
                         symbol: any;
                         price: any;
@@ -117,29 +147,34 @@
                         stockDiv.classList.add(
                             "flex",
                             "flex-col",
-                            "bg-gray-900",
-                            "text-white",
-                            "p-4",
+                            "bg-gray-100",
+                            "text-black",
                             "rounded-md",
-                            "mb-2",
-                            "max-w-sm", // optional: limit width
+                            "mb-1.5",
+                            "max-w-sm",
+                            "dark:bg-gray-800",
+                            "dark:text-white",
+                            "p-2",
                         );
 
                         // Fill in the HTML
                         stockDiv.innerHTML = `
-                        <div class="flex items-center space-x-2">
-                        <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
-                        ${stock.symbol}
-                        </a>
-                        <span class="text-xl font-bold">
-                        ${stock.price}
-                        </span>
-                        </div>
-                        <div class="text-sm text-gray-400 truncate w-full">
-                        ${stock.name}
-                        </div>
-                        <div class="${changeColor} text-sm">
-                        ${stock.change} (${stock.changesPercentage}%)
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col items-left space-x-2">
+                                <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
+                                    ${stock.symbol}
+                                </a>
+                                <span class="text-sm text-gray-400 truncate">
+                                    ${stock.name}
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xl font-bold">
+                                    ${stock.price}
+                                </div>
+                            <div class="${changeColor} text-sm">
+                                ${stock.change} (${stock.changesPercentage}%)
+                            </div>
                         </div>
                         `;
                         stockContainer.appendChild(stockDiv);
@@ -166,7 +201,8 @@
                     return;
                 }
                 stockContainer.innerHTML = "";
-                data.forEach(
+                const top12Gainers = data.slice(0, 12);
+                top12Gainers.forEach(
                     (stock: {
                         symbol: any;
                         price: any;
@@ -175,18 +211,47 @@
                         change: any;
                         changesPercentage: any;
                     }) => {
-                        const stockElement = document.createElement("div");
-                        stockElement.innerHTML = `
-                <div>
-                    <h2>${stock.symbol} </h2>
-                    <p> ${stock.price} </p>
-                    <p> ${stock.name} </p>
-                    <p> ${stock.change} </p>
-                    <p> ${stock.changesPercentage} </p>
-                    <p> ${stock.exchange} </p>
-                </div>
-            `;
-                        stockContainer.appendChild(stockElement);
+                        const changeColor =
+                            parseFloat(stock.change) >= 0
+                                ? "text-green-500"
+                                : "text-red-500";
+
+                        // Create a container div
+                        const stockDiv = document.createElement("div");
+                        stockDiv.classList.add(
+                            "flex",
+                            "flex-col",
+                            "bg-gray-100",
+                            "text-black",
+                            "rounded-md",
+                            "mb-1.5",
+                            "max-w-sm",
+                            "dark:bg-gray-800",
+                            "dark:text-white",
+                            "p-2",
+                        );
+
+                        // Fill in the HTML
+                        stockDiv.innerHTML = `
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col items-left space-x-2">
+                                <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
+                                    ${stock.symbol}
+                                </a>
+                                <span class="text-sm text-gray-400 truncate">
+                                    ${stock.name}
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xl font-bold">
+                                    ${stock.price}
+                                </div>
+                            <div class="${changeColor} text-sm">
+                                ${stock.change} (${stock.changesPercentage}%)
+                            </div>
+                        </div>
+                        `;
+                        stockContainer.appendChild(stockDiv);
                     },
                 );
             } catch (error) {
@@ -209,9 +274,9 @@
                     stockContainer.innerHTML = `<p>No stock data available!</p>`;
                     return;
                 }
-
                 stockContainer.innerHTML = "";
-                data.forEach(
+                const top12Gainers = data.slice(0, 12);
+                top12Gainers.forEach(
                     (stock: {
                         symbol: any;
                         price: any;
@@ -220,17 +285,47 @@
                         change: any;
                         changesPercentage: any;
                     }) => {
-                        const stockElement = document.createElement("div");
-                        stockElement.innerHTML = `
-                <div>
-                    <h2>${stock.symbol} </h2>
-                    <p> ${stock.price} </p>
-                    <p> ${stock.name} </p>
-                    <p> ${stock.change} </p>
-                    <p> ${stock.changesPercentage} </p>
-                    <p> Actively trading: ${stock.exchange} </p>
-                </div>`;
-                        stockContainer.appendChild(stockElement);
+                        const changeColor =
+                            parseFloat(stock.change) >= 0
+                                ? "text-green-500"
+                                : "text-red-500";
+
+                        // Create a container div
+                        const stockDiv = document.createElement("div");
+                        stockDiv.classList.add(
+                            "flex",
+                            "flex-col",
+                            "bg-gray-100",
+                            "text-black",
+                            "rounded-md",
+                            "mb-1.5",
+                            "max-w-sm",
+                            "dark:bg-gray-800",
+                            "dark:text-white",
+                            "p-2",
+                        );
+
+                        // Fill in the HTML
+                        stockDiv.innerHTML = `
+                        <div class="flex justify-between items-center w-full">
+                            <div class="flex flex-col items-left space-x-2">
+                                <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
+                                    ${stock.symbol}
+                                </a>
+                                <span class="text-sm text-gray-400 truncate">
+                                    ${stock.name}
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xl font-bold">
+                                    ${stock.price}
+                                </div>
+                            <div class="${changeColor} text-sm">
+                                ${stock.change} (${stock.changesPercentage}%)
+                            </div>
+                        </div>
+                        `;
+                        stockContainer.appendChild(stockDiv);
                     },
                 );
             } catch (error) {
@@ -256,8 +351,10 @@
             getStockData();
             getGainersData();
             getLosersData();
-            getActiveData();
         });
         getStockData();
+        getGainersData();
+        getLosersData();
+        getActiveData();
     });
 </script>
