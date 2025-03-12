@@ -9,6 +9,8 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
     },
+    trailingSlash: "always", // Ensures static file paths are correct
+    output: "static", // Ensures full static output for GitHub Pages
     // define: {
     //     'import.meta.env.FMP_API_KEY': process.env.FMP_API_KEY,
     // },
