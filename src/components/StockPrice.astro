@@ -1,16 +1,6 @@
----
-import "../styles/global.css";
----
-
-<div class="container mx-auto bg-[#ffffff] dark:bg-[#0e101a]">
-    <section>
-        <h2 id="stock">Stock search</h2>
-        <p>Financial Modeling Prep's API</p>
-        <!-- <input
-            type="text"
-            id="stock-api-key"
-            placeholder="Enter API key (temporary))"
-        /> -->
+<section>
+    <h3 id="stock">Search for a stock</h3>
+    <div class="md:flex justify-evenly">
         <input
             type="text"
             id="stock-symbol"
@@ -22,295 +12,237 @@ import "../styles/global.css";
             class="btn bg-[#1eb5cf] hover:bg-[#497981] text-black rounded-md dark:bg-[#1E1F2A] dark:text-white dark:hover:bg-[#394152]"
             >Submit</button
         >
-        <div id="stock-container">
-        </div>
-    </section>
-    <section>
-        <h2 class="text-center">Todays Top Movers</h2>
-        <div class="md:flex justify-around md:items-center md:w-full">
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Top Gainers..</h3>
-                <div id="gainers-container" class="items-center max-w-30%">
-                    <p>Gainers data</p>
-                </div>
-            </div>
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Top Losers</h3>
-                <div id="losers-container" class="items-center max-w-30%">
-                    <p>Losers data..</p>
-                </div>
-            </div>
-            <div class="flex flex-col space-x-2">
-                <h3 class="text-center">Most Active</h3>
-                <div id="actives-container" class="items-center max-w-30%">
-                    <p>Active data..</p>
-                </div>
+    </div>
+    <h4>The data is updated hourly using Financial Modeling Prep's API</h4>
+
+    <div id="stock-search-data"></div>
+</section>
+<section>
+    <h2 class="text-center">Todays Top Movers</h2>
+    <div class="md:flex justify-around md:items-center md:w-full">
+        <div class="flex flex-col space-x-2">
+            <h3 class="text-center">Top Gainers..</h3>
+            <div id="gainers" class="items-center max-w-30%">
+                <p>Gainers data</p>
             </div>
         </div>
-    </section>
-</div>
+        <div class="flex flex-col space-x-2">
+            <h3 class="text-center">Top Losers</h3>
+            <div id="losers" class="items-center max-w-30%">
+                <p>Losers data..</p>
+            </div>
+        </div>
+        <div class="flex flex-col space-x-2">
+            <h3 class="text-center">Most Active</h3>
+            <div id="actives" class="items-center max-w-30%">
+                <p>Active data..</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Template for stock data -->
+<template id="stock-item-template">
+    <div
+        class="flex flex-col bg-gray-100 text-black rounded-md mb-2 dark:bg-gray-800 dark:text-white p-2"
+    >
+        <div class="flex justify-between items-center w-full">
+            <div class="flex flex-col items-start">
+                <a
+                    href="#"
+                    class="text--400 hover:underline font-semibold text-sm stock-symbol"
+                    id="stock-symbol"
+                >
+                    SYMBOL
+                </a>
+                <span
+                    class="text-sm text-gray-400 truncate max-w-full stock-name"
+                    id="stock-name"
+                >
+                    Company Name
+                </span>
+            </div>
+            <div class="text-right">
+                <div class="text-lg font-bold stock-price" id="stock-price">
+                    $0.00
+                </div>
+                <div class="text-sm stock-change" id="stock-change">
+                    0.00 (0.00%)
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
 <script>
+    //todo: make constant values using capital letters for easier maintenance
+    // get the API key from .env file
     var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
-    var symbol = "RR.L"; // Rolls-Royce on the London Stock Exchange
-    // const cacheKey = "stockData";
+    var symbol = "RR.L"; // example symbol e.g Rolls-Royce on the London Stock Exchange
     const expirationKey = "stockDataExpiration";
     const oneDay = 24 * 60 * 60 * 1000; // 24hrs in milliseconds
+    const oneHour = 60 * 60 * 1000; // 1hr in milliseconds
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // const cachedData = localStorage.getItem(cacheKey);
-        const cachedExpiration = localStorage.getItem(expirationKey);
-        // localStorage.removeItem("stockDataExpiration"); temp test
-        console.log("cachedExpiration initial", cachedExpiration);
-        // if (
-        //     cachedData &&
-        //     cachedExpiration &&
-        //     Date.now() < Number(cachedExpiration)
-        // ) {
-        //     console.log("Using cached stock data.");
-        //     return JSON.parse(cachedData);
-        // }
+    // used to check for expiration time for cached data
+    const cachedExpiration = localStorage.getItem(expirationKey);
+    console.log("cachedExpiration initial", cachedExpiration);
 
-        async function getStockData() {
-            //get a specific stock data
-            //https://financialmodelingprep.com/stable/grades?symbol=AAPL&apikey=YOUR_API_KEY
-            const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
-            const stockContainer = document.querySelector("#stock-container");
+    // // function to search for a specific stock and display the data
+    async function getStockData() {
+        const url = `https://financialmodelingprep.com/stable/profile?symbol=${symbol}&apikey=${apiKey}`;
+        const stockContainer = document.querySelector("#stock-search-data");
 
-            if (!stockContainer) return;
-            try {
-                const response = await fetch(url); //try to fetch the data
-                const data = await response.json(); //check for response
-                // console.log("API Response:", data);
+        if (!stockContainer) return;
+        try {
+            stockContainer.innerHTML = `<p class="text-center">Loading stock data...</p>`;
+            const response = await fetch(url);
+            const data = await response.json();
 
-                const stock = data[0];
-                if (!stock) {
-                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                    return;
-                }
-                stockContainer.innerHTML = `
-                <div>
-                    <h2>${stock.symbol} </h2>
-                    <ul> <li> ${stock.price} </li> 
-                    <li> ${stock.companyName} </li>
-                    <li> ${stock.exchangeFullName} </li>
-                    <li> ${stock.exchange} </li>
-                    <li> ${stock.sector} </li>
-                    </ul>
-                </div>
-            `;
-            } catch (error) {
-                console.error("Error fetching stock data:", error);
-                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-            }
-        }
-
-        async function getGainersData() {
-            const cacheKey = "gainersData"; // Define cache key
-            const stockContainer = document.querySelector("#gainers-container");
-
-            if (!stockContainer) return;
-
-            // Check if data exists in localStorage
-            const cachedData = localStorage.getItem(cacheKey);
-            if (
-                cachedData &&
-                cachedExpiration &&
-                Date.now() < Number(cachedExpiration)
-            ) {
-                console.log("Loading gainers data from cache...");
-                console.log("cachedExpiration after addition of time", cachedExpiration);
-                displayData(JSON.parse(cachedData), stockContainer);
+            const stock = data[0];
+            if (!stock) {
+                stockContainer.innerHTML = `<p class="text-center">No stock data available!</p>`;
                 return;
             }
-
-            // Fetch data if not cached
-            const url = `https://financialmodelingprep.com/stable/biggest-gainers?apikey=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (!data || data.length === 0) {
-                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                    return;
-                }
-
-                localStorage.setItem(
-                    expirationKey,
-                    (Date.now() + oneDay).toString(), //store the expiration time by adding 24hrs to the current time
-                );
-                // Store data in localStorage
-                localStorage.setItem(cacheKey, JSON.stringify(data));
-
-                // Display data
-                displayData(data, stockContainer);
-            } catch (error) {
-                console.error("Error fetching gainers data:", error);
-                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-            }
-        }
-
-        // Separate function to display stock data
-        function displayData(data: string | any[], container: Element) {
-            container.innerHTML = ""; // Clear previous content
-            if (Array.isArray(data)) {
-                const top12Gainers = data.slice(0, 12); // Take only the first 12
-
-                top12Gainers.forEach((stock) => {
-                    const changeColor =
-                        parseFloat(stock.change) >= 0
-                            ? "text-green-500"
-                            : "text-red-500";
-
-                    // Create stock div
-                    const stockDiv = document.createElement("div");
-                    stockDiv.classList.add(
-                        "flex",
-                        "flex-col",
-                        "bg-gray-100",
-                        "text-black",
-                        "rounded-md",
-                        "mb-1.5",
-                        "max-w-sm",
-                        "dark:bg-gray-800",
-                        "dark:text-white",
-                        "p-2",
-                    );
-
-                    // Fill in the HTML
-                    stockDiv.innerHTML = `
-            <div class="flex justify-between items-center w-full">
-                <div class="flex flex-col items-left space-x-2">
-                    <a href="#" class="text-blue-400 hover:underline font-semibold text-sm">
-                        ${stock.symbol}
-                    </a>
-                    <span class="text-sm text-gray-400 text-ellipsis">
-                        ${stock.name}
-                    </span>
-                </div>
-                <div class="text-right">
-                    <div class="text-xl font-bold">
-                        ${stock.price}
-                    </div>
-                    <div class="${changeColor} text-sm">
-                        ${stock.change} (${stock.changesPercentage}%)
-                    </div>
-                </div>
+            stockContainer.innerHTML = `
+            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <h2 class="text-xl font-bold mb-2">${stock.symbol}</h2>
+              <div class="grid grid-cols-2 gap-2 dark:text-white">
+                <div class="font-semibold">Price:</div><div>${stock.price}</div>
+                <div class="font-semibold">Company:</div><div>${stock.companyName}</div>
+                <div class="font-semibold">Exchange:</div><div>${stock.exchangeFullName}</div>
+                <div class="font-semibold">Symbol:</div><div>${stock.exchange}</div>
+                <div class="font-semibold">Sector:</div><div>${stock.sector}</div>
+              </div>
             </div>
-        `;
-
-                    container.appendChild(stockDiv);
-                });
-            } else {
-                console.error("Data is not an array:", data);
-                container.innerHTML = `<p>Error loading stock data.</p>`;
-            }
+          `;
+        } catch (error) {
+            console.error("Error fetching stock data:", error);
+            stockContainer.innerHTML = `<p class="text-center text-red-500">Error loading stock data.</p>`;
         }
+    }
 
-        async function getLosersData() {
-            const cacheKey = "losersData"; // Define cache key
-            const stockContainer = document.querySelector("#losers-container");
+    // Single function to fetch data that handles all three data types (currently biggest gainers, losers, and most active)
+    async function fetchMarketData(type: string) {
+        const cacheKey = `${type}Data`;
+        const container = document.querySelector(`#${type}`);
 
-            if (!stockContainer) return;
+        if (!container) return;
 
-            // Check if data exists in localStorage
-            const cachedData = localStorage.getItem(cacheKey);
-            if (
-                cachedData &&
-                cachedExpiration &&
-                Date.now() < Number(cachedExpiration)
-            ) {
-                console.log("Loading gainers data from cache...");
-                displayData(JSON.parse(cachedData), stockContainer);
-                return;
-            }
+        // Set consistent caching approach
+        let data;
+        const cachedData = localStorage.getItem(cacheKey);
+        const currentExpiration = localStorage.getItem(expirationKey);
+        const now = Date.now();
 
-            // Fetch data if not cached
-            const url = `https://financialmodelingprep.com/stable/biggest-losers?apikey=${apiKey}`;
+        // Check for valid cached data
+        if (
+            cachedData &&
+            currentExpiration &&
+            now < Number(currentExpiration)
+        ) {
+            console.log(`Loading ${type} data from cache...`);
+            data = JSON.parse(cachedData);
+        } else {
+            // Set new expiration time for all data types
+            const newExpiration = now + oneHour;
+            localStorage.setItem(expirationKey, newExpiration.toString());
+
+            // Fetch fresh data
+            const endpoint =
+                type === "gainers"
+                    ? "biggest-gainers"
+                    : type === "losers"
+                      ? "biggest-losers"
+                      : "most-actives";
+
+            const url = `https://financialmodelingprep.com/stable/${endpoint}?apikey=${apiKey}`;
 
             try {
                 const response = await fetch(url);
-                const data = await response.json();
+                data = await response.json();
 
-                if (!data || data.length === 0) {
-                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                    return;
-                }
-
-                localStorage.setItem(
-                    expirationKey,
-                    (Date.now() + oneDay).toString(), //store the expiration time by adding 24hrs to the current time
-                );
-                console.log("cachedExpiration after addition of time2", cachedExpiration);
-                // Store data in localStorage
+                // Store in cache
                 localStorage.setItem(cacheKey, JSON.stringify(data));
-
-                // Display data
-                displayData(data, stockContainer);
             } catch (error) {
-                console.error("Error fetching gainers data:", error);
-                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-            }
-        }
-
-        async function getActiveData() {
-            const cacheKey = "activesData"; // Define cache key
-            const stockContainer = document.querySelector("#actives-container");
-
-            if (!stockContainer) return;
-
-            // Check if data exists in localStorage
-            const cachedData = localStorage.getItem(cacheKey);
-            if (
-                cachedData &&
-                cachedExpiration &&
-                Date.now() < Number(cachedExpiration)
-            ) {
-                console.log("Loading gainers data from cache...");
-                displayData(JSON.parse(cachedData), stockContainer);
+                console.error(`Error fetching ${type} data:`, error);
+                container.innerHTML = `<p class="text-center text-red-500">Error loading data.</p>`;
                 return;
             }
-
-            // Fetch data if not cached
-            const url = `https://financialmodelingprep.com/stable/most-actives?apikey=${apiKey}`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (!data || data.length === 0) {
-                    stockContainer.innerHTML = `<p>No stock data available!</p>`;
-                    return;
-                }
-
-                localStorage.setItem(
-                    expirationKey,
-                    (Date.now() + oneDay).toString(), //store the expiration time by adding 24hrs to the current time
-                );
-                // Store data in localStorage
-                localStorage.setItem(cacheKey, JSON.stringify(data));
-                console.log("cachedExpiration after addition of time3", cachedExpiration);
-                // Display data
-                displayData(data, stockContainer);
-            } catch (error) {
-                console.error("Error fetching gainers data:", error);
-                stockContainer.innerHTML = `<p>Error loading stock data.</p>`;
-            }
         }
 
-        const stockSubmit = document.querySelector("#stock-submit");
-        if (!stockSubmit) return;
+        // Display data
+        displayData(data, container);
+    }
+
+    //function to display the data into the a html template.
+    function displayData(data: string | any[], container: Element) {
+        container.innerHTML = ""; // Clear previous content
+
+        //checks if there is any data to display
+        if (!Array.isArray(data) || data.length === 0) {
+            container.innerHTML = `<p class="text-center">No data available</p>`;
+            return;
+        }
+
+        //get the html template
+        const template = document.getElementById(
+            "stock-item-template",
+        ) as HTMLTemplateElement;
+        //get the top 12 items from the fetched data
+        const top12Items = data.slice(0, 12);
+
+        top12Items.forEach((stock) => {
+            // Clone the template
+            const stockDiv = template.content.cloneNode(
+                true,
+            ) as DocumentFragment;
+
+            // Update content
+            const symbolElement = stockDiv.querySelector(".stock-symbol");
+            const nameElement = stockDiv.querySelector(".stock-name");
+            const priceElement = stockDiv.querySelector(".stock-price");
+            const changeElement = stockDiv.querySelector(
+                ".stock-change",
+            ) as HTMLElement;
+
+            if (symbolElement) symbolElement.textContent = stock.symbol;
+            const stockName =
+                stock.name.length > 30
+                    ? stock.name.slice(0, 35) + "..."
+                    : stock.name;
+            if (nameElement) nameElement.textContent = stockName;
+            if (priceElement) priceElement.textContent = stock.price;
+
+            // Handle change color and text
+            if (changeElement) {
+                const isPositive = parseFloat(stock.change) >= 0;
+                changeElement.style.color = isPositive ? "#10B981" : "#EF4444"; // green-500 and red-500
+                changeElement.textContent = `${stock.change} (${stock.changesPercentage}%)`;
+            }
+
+            container.appendChild(stockDiv);
+        });
+    }
+
+    // Set up event listener for the stock search
+    const stockSubmit = document.querySelector("#stock-submit");
+    if (stockSubmit) {
         stockSubmit.addEventListener("click", () => {
             const stockSymbol = document.querySelector(
                 "#stock-symbol",
             ) as HTMLInputElement;
-            if (!stockSymbol) return;
-            symbol = stockSymbol.value;
-            getStockData();
+            if (stockSymbol) {
+                symbol = stockSymbol.value;
+                getStockData();
+            }
+            
         });
-        getGainersData();
-        getLosersData();
-        getActiveData();
+    }
+
+    // Initialize all data fetching
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchMarketData("gainers");
+        fetchMarketData("losers");
+        fetchMarketData("actives");
     });
 </script>

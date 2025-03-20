@@ -9,28 +9,6 @@ import upArrow from "../images/upArrow.png";
 ---
 
 <script src="../components/scripts/gsap/reveal.js"></script>
-<script>
-	/* I have stopped using this and switched to GSAP for the same/ better effect.
-	// The showOrHideHeader.js file contains a check for when this file is loaded and then runs the hideHeader function!
-	//this code is kept because im testing if the gsap method causes performance issues.
-	document.addEventListener("DOMContentLoaded", () => {
-		window.addEventListener("load", function () {
-			// Get the height of the header section
-			const headerHeight =
-				document.getElementById("headerSection")?.offsetHeight ?? 0;
-
-			// Scroll down by the height of the header
-			window.scrollTo({
-				top: headerHeight,
-				behavior: "smooth",
-			});
-		});
-		// hide the header when page loads
-		document.querySelector("#mainHeader")?.classList.toggle("hidden");
-		document.querySelector("#secondHeader")?.classList.toggle("hidden");
-		document.querySelector("#showBtn")?.classList.toggle("hidden");
-	 }); */
-</script>
 
 <Header />
 	<Layout>
@@ -100,8 +78,8 @@ import upArrow from "../images/upArrow.png";
 
 <script>
 	import { gsap } from "gsap";
-	import { ScrollTrigger } from "gsap/ScrollTrigger";
-	import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 	gsap.registerPlugin(ScrollTrigger);
 	document.addEventListener("DOMContentLoaded", () => {
 		const scrollButton = document.getElementById("scrollButton");
