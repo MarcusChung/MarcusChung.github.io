@@ -81,13 +81,6 @@
     // get the API key from .env file
     var apiKey = import.meta.env.PUBLIC_STOCKS_API_KEY;
     var symbol = "RR.L"; // example symbol e.g Rolls-Royce on the London Stock Exchange
-    const expirationKey = "stockDataExpiration";
-    const oneDay = 24 * 60 * 60 * 1000; // 24hrs in milliseconds
-    const oneHour = 60 * 60 * 1000; // 1hr in milliseconds
-
-    // used to check for expiration time for cached data
-    const cachedExpiration = localStorage.getItem(expirationKey);
-    console.log("cachedExpiration initial", cachedExpiration);
 
     // // function to search for a specific stock and display the data
     async function getStockData() {
@@ -123,31 +116,53 @@
         }
     }
 
+    function resetCache() {
+        localStorage.removeItem("gainersData");
+        localStorage.removeItem("losersData");
+        localStorage.removeItem("activesData");
+    }
+
     // Single function to fetch data that handles all three data types (currently biggest gainers, losers, and most active)
     async function fetchMarketData(type: string) {
+        const EXPIRATION_KEY = `${type}Expiration`;
+        const oneDay = 24 * 60 * 60 * 1000; // 24hrs in milliseconds
+        const oneHour = 60 * 60 * 1000; // 1hr in milliseconds
+        const oneSecond = 1000; // 1 second in milliseconds
+        
         const cacheKey = `${type}Data`;
         const container = document.querySelector(`#${type}`);
+        // localStorage.setItem(EXPIRATION_KEY, (Date.now() - 1000).toString());
 
         if (!container) return;
 
         // Set consistent caching approach
         let data;
         const cachedData = localStorage.getItem(cacheKey);
-        const currentExpiration = localStorage.getItem(expirationKey);
+        const currentExpiration = localStorage.getItem(EXPIRATION_KEY);
         const now = Date.now();
 
         // Check for valid cached data
+        //if cachedData and currentExpir exists, and the current time has not passed the expiration time
         if (
             cachedData &&
             currentExpiration &&
             now < Number(currentExpiration)
         ) {
+            // convert expiration time to a readable date format
+            const expirationDate = new Date(Number(currentExpiration));
+            const expirationTime = expirationDate.toLocaleTimeString();
+            const nowTime = new Date(now).toLocaleTimeString();
+            
             console.log(`Loading ${type} data from cache...`);
+            console.log('cachedExpirationTime= ', expirationTime);
+            console.log('nowTime= ', nowTime);
             data = JSON.parse(cachedData);
         } else {
+            console.log(`Fetching updated ${type} data...`);
+            console.log('currentExpiration= ', currentExpiration);
             // Set new expiration time for all data types
             const newExpiration = now + oneHour;
-            localStorage.setItem(expirationKey, newExpiration.toString());
+            localStorage.setItem(EXPIRATION_KEY, newExpiration.toString());
 
             // Fetch fresh data
             const endpoint =
@@ -242,6 +257,7 @@
 
     // Initialize all data fetching
     document.addEventListener("DOMContentLoaded", () => {
+        // resetCache();
         fetchMarketData("gainers");
         fetchMarketData("losers");
         fetchMarketData("actives");
