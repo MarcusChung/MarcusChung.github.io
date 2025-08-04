@@ -71,7 +71,7 @@ tl.from("#appear", {
   duration: 2,
   ease: "power2.out",
 })
-.from("#pikachu", {
+.from("#projectTemp", {
   opacity: 0,
   x: 500,
   duration: 3,
